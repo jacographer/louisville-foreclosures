@@ -133,19 +133,29 @@
   legend is outside of container-fluid and will be dynamically added to map
   Bootstrap classes styles the legend
 	-->
-	<div class="bg-secondary py-2 px-3 ml-3 mt-3 text-white" id="legend"></div>
+	<div class="bg-secondary py-2 px-3 ml-3 mt-3 text-white" id="legend">
+		<ul class="list-unstyled">
+			<li><span style="background:#fb9a99"></span>2020</li>	
+			<li><span style="background:#33a02c"></span>2019</li>
+			<li><span style="background:#b2df8a"></span>2018</li>
+			<li><span style="background:#1f78b4"></span>2017</li>
+			<li><span style="background:#a6cee3"></span>2016</li>
+	</div>
 
 	<!-- 
 		ui is outside of container-fluid and will be dynamically added to map 
 		Bootstrap classes styles the UI
 	-->
+	
 	<div class="btn " id="dropdown-ui">
 		<!-- mr-3 mt-3 -->
 		<select class="btn-secondary dropdown-toggle">
 			<!-- btn-control dropdown-toggle border-0 text-$cyan-200 -->
-			<option value="HC01_VC06" selected>Employed</option>
-			<option value="HC01_VC07">Unemployed</option>
-			<option value="HC01_VC09">Not in Labor Force</option>
+			<option value="2020" selected>2020</option>
+			<option value="2019">2019</option>
+			<option value="2018">2018</option>
+			<option value="2017">2017</option>
+			<option value="2016">2016</option>
 		</select>
 	</div>
 
@@ -164,9 +174,11 @@
 	<script>
 		// initial Leaflet map options
 		const options = {
-			zoomSnap: 0.1,
-			// center: [40, -90],
-			// zoom: 4,
+			zoomSnap: 0.5,
+			center: [38.2, -85.72],
+			zoom: 11.5,
+			minZoom: 10,
+			maxZoom: 16,
 			zoomControl: false,
 		};
 		// create Leaflet map and apply options
@@ -182,18 +194,18 @@
 
 		// set global variables for map layer,
 		// mapped attribute, and normalizing attribute
-		let attributeValue = "HC01_VC06"; // Employed
-		const normValue = "HC01_VC03"; // Total population 16+
+		let attributeValue = "2020"; // Employed
+		// const normValue = "HC01_VC03"; // Total population 16+
 
-		// create object to hold legend titles
-		const labels = {
-			"HC01_VC06": "Employed<br>(Aged 16+)",
-			"HC01_VC07": "Unemployed<br>(Aged 16+)",
-			"HC01_VC09": "Not in Labor Force<br>(Aged 16+)"
-		}
+		// // create object to hold legend titles
+		// const labels = {
+		// 	"HC01_VC06": "Employed<br>(Aged 16+)",
+		// 	"HC01_VC07": "Unemployed<br>(Aged 16+)",
+		// 	"HC01_VC09": "Not in Labor Force<br>(Aged 16+)"
+		// }
 
 		// fetch data from a remote source
-		fetch("data/ca_labor.json")
+		fetch("../data/point-foreclosures-all.geojson")
 			// after it is returned...
 			.then(function (response) {
 				// if has a property called ok, and it is true
@@ -216,24 +228,29 @@
 
 		function drawMap(data) {
 			// create Leaflet data layer and add to map
-			const counties = L.geoJson(data, {
+			var pointStyles = {
+				radius: 5,
+				fillColor: "#ff7800",
+				color: "rgba (0,0,0,0)",
+				weight: 1,
+				opacity: 1,
+				fillOpacity: 0.9
+			}
+			const addresses = L.geoJson(data, {
 				// style counties with initial default path options
-				style: function (feature) {
-					return {
-						color: "#20282e",
-						weight: 2,
-						fillOpacity: 1,
-						fillColor: "#1f78b4",
-					};
+				pointToLayer: function (feature, latlng) {
+					return L.circleMarker(latlng, pointStyles)
 				},
+
 				// add hover/touch functionality to each feature layer
 				onEachFeature: function (feature, layer) {
-					// when mousing over a layer
+				// when mousing over a layer
 					layer.on("mouseover", function () {
 						// change the stroke color and bring that element to the front
 						layer
 							.setStyle({
 								color: "#ffffd4",
+								weight: 2,
 							})
 							.bringToFront();
 					});
@@ -242,45 +259,45 @@
 					layer.on("mouseout", function () {
 						// reset the layer style to its original stroke color
 						layer.setStyle({
-							color: "#20282e",
+							color: "rgba (0,0,0,0)",
 						});
 					});
 				},
 			}).addTo(map);
 
 			// fit the map's bounds and zoom level using the counties extent
-			map.fitBounds(counties.getBounds(), {
-				padding: [18, 18], // add padding around counties
-			});
+			// map.fitBounds(addresses.getBounds(), {
+			// 	padding: [18, 18], // add padding around counties
+			// });
 
 			addLegend(); // add empty legend to map
-			addUi(counties); // add the UI controls
-			updateMap(counties); // draw the map
+			addUi(addresses); // add the UI controls
+			updateMap(addresses); // draw the map
 		}
 
-		function updateMap(counties) {
+		function updateMap(addresses) {
 			// you could log counties to console here to
 			// verify the Leaflet layers object is not accessible
 			// and scoped within this function
-			console.log(counties);
-
-			// get the class breaks for the current data attribute
-			const breaks = getClassBreaks(counties);
+			console.log(addresses);
 
 			// loop through each county layer to update the color and tooltip info
-			counties.eachLayer(function (layer) {
+			addresses.eachLayer(function (layer) {
 				const props = layer.feature.properties;
+				const year = props["SALE_DATE"];
 
 				// set the fill color of layer based on its normalized data value
 				layer.setStyle({
-					fillColor: getColor(props[attributeValue] / props[normValue], breaks),
+					fillColor: getColor(year),
 				});
 
 				// assemble string sequence of info for tooltip (end line break with + operator)
-				let tooltipInfo = `<b>${props["NAME"]} County</b></br>
-				${((props[attributeValue] / props[normValue]) * 100).toLocaleString()}%`;
+				let tooltipInfo = `<b>${props["PROPERTY"]}</b></br>
+				${props["PURCHASER"]}<br>${props["PURCHASE"]}, ${props["SALE_DATE"]}`;
 
-				// bind a tooltip to layer with county-specific information
+				// I tried to do a .substring() method on the PURCHASER data, but it breaks the map and I can't determine why.
+
+				// // bind a tooltip to layer with county-specific information
 				layer.bindTooltip(tooltipInfo, {
 					// sticky property so tooltip follows the mouse
 					sticky: true,
@@ -288,50 +305,54 @@
 			});
 
 			// update the legend with the current data attribute information
-			updateLegend(breaks);
+			// updateLegend(addresses);
 		}
 
 		// Get class breaks in data
-		function getClassBreaks(counties) {
-			// create empty Array for storing values
-			const values = [];
+		// function getYears(addresses) {
+		// 	// create empty Array for storing values
+		// 	const values = [];
 
-			// loop through all the counties
-			counties.eachLayer(function (layer) {
-				let value =
-					layer.feature.properties[attributeValue] /
-					layer.feature.properties[normValue];
-				values.push(value); // push the normalized value for each layer into the Array
-			});
+		// 	// loop through all the counties
+		// 	addresses.eachLayer(function (layer) {
+		// 		let value = layer.feature.properties["SALE_DATE"]
+		// 			// layer.feature.properties[attributeValue] /
+		// 			// layer.feature.properties[normValue];
+		// 		values.push(value); // push the normalized value for each layer into the Array
+		// 	});
+		// 	return values;
 
-			// determine similar clusters
-			const clusters = ss.ckmeans(values, 5);
 
-			// create an array of the lowest value within each cluster
-			const breaks = clusters.map(function (cluster) {
-				return [cluster[0], cluster.pop()];
-			});
+			// // determine similar clusters
+			// const clusters = ss.ckmeans(values, 5);
 
-			//return array of arrays, e.g., [[0.24,0.25], [0.26, 0.37], etc]
-			return breaks;
-		}
+			// // create an array of the lowest value within each cluster
+			// const breaks = clusters.map(function (cluster) {
+			// 	return [cluster[0], cluster.pop()];
+			// });
+
+			// //return array of arrays, e.g., [[0.24,0.25], [0.26, 0.37], etc]
+			// return breaks;
+		// }
 
 		// Get color of county
-		function getColor(d, breaks) {
+		function getColor(year) {
 			// function accepts a single normalized data attribute value
 			// and uses a series of conditional statements to determine which
 			// which color value to return to return to the function caller
 
-			if (d <= breaks[0][1]) {
-				return "#f1eef6";
-			} else if (d <= breaks[1][1]) {
-				return "#d7b5d8";
-			} else if (d <= breaks[2][1]) {
-				return "#df65b0";
-			} else if (d <= breaks[3][1]) {
-				return "#dd1c77";
-			} else if (d <= breaks[4][1]) {
-				return "#980043";
+			if (year.includes("2016") && (attributeValue == 2016)) {
+				return "#a6cee3";
+			} else if (year.includes("2017") && (attributeValue == 2017)) {
+				return "#1f78b4";
+			} else if (year.includes("2018")&& (attributeValue == 2018)) {
+				return "#b2df8a";
+			} else if (year.includes("2019")&& (attributeValue == 2019)) {
+				return "#33a02c";
+			} else if (year.includes("2020")&& (attributeValue == 2020)) {
+				return "#fb9a99";
+			} else {
+				return "rgba(255, 255, 255, 0.05)"
 			}
 		}
 
@@ -360,22 +381,19 @@
 			legendControl.addTo(map);
 		}
 
-		function updateLegend(breaks) {
-			// select the legend, add a title, begin an unordered list and assign to a variable
-			const legend = document.querySelector("#legend")
-			legend.innerHTML = `<h5>${labels[attributeValue]}</h5>`;
+		// function updateLegend(year) {
+		// 	// select the legend, add a title, begin an unordered list and assign to a variable
+		// 	const legend = document.querySelector("#legend")
+		// 	legend.innerHTML = `<h5>${labels[year]}</h5>`;
 
-			// loop through the Array of classification break values
-			for (let i = 0; i <= breaks.length - 1; i++) {
-				let color = getColor(breaks[i][0], breaks);
-				legend.innerHTML +=
-					`<div><span style="background:${color}"></span>
-					<label>${(breaks[i][0] * 100).toLocaleString()} -
-					${(breaks[i][1] * 100).toLocaleString()}%</label></div>`;
-			}
-		}
+		// 	// loop through the Array of classification break values
+		// 		let color = getColor(addresses.)
+		// 		legend.innerHTML +=
+		// 			`<div><span style="background:${color}"></span>
+		// 			<label>${[years]}`;
+		// }
 
-		function addUi(counties) {
+		function addUi(addresses) {
 			// create the slider control
 			var selectControl = L.control({
 				position: "topright"
@@ -395,7 +413,7 @@
 				attributeValue = e.target.value;
 
 				// update the map
-				updateMap(counties);
+				updateMap(addresses);
 			});
 		}
 	</script>
