@@ -23,7 +23,11 @@
 		}
 
 		h1 {
-			font-weight: 800;
+			font-weight: 600;
+		}
+
+		h3 {
+			font-weight: 200;
 		}
 
 		p {
@@ -58,8 +62,6 @@
 			margin: 0 10px 4px 0;
 		}
 
-
-
 		#legend label {
 			font-size: 0.9rem;
 		}
@@ -68,6 +70,12 @@
 			content: '';
 			display: block;
 			clear: both;
+		}
+
+		.leaflet-tooltip{
+			font-family: 'Nunito', sans-serif;
+			width: 200px;
+			white-space: normal;
 		}
 
 		/* Small devices (landscape phones, 576px and up) */
@@ -308,8 +316,7 @@
 				});
 
 				// assemble string sequence of info for tooltip (end line break with + operator)
-				let tooltipInfo = `<b>${props["PROPERTY"]}</b></br>
-				${props["PURCHASER"]}<br>${props["PURCHASE"]}, ${props["SALE_DATE"]}`;
+				let tooltipInfo = `<b>${props["PROPERTY"]}</b><br>Date of Sale: ${props["SALE_DATE"]}<br> Sale Price: ${props["PURCHASE"]}<br>Purchaser: <i>${props["PURCHASER"]}</i>`;
 
 				// I tried to do a .substring() method on the PURCHASER data, but it breaks the map and I can't determine why.
 
