@@ -120,10 +120,8 @@
 		<footer class="row bg-black text-white py-3">
 			<div class="col">
 				<ul class="list-unstyled">
-					<li><a href="https://jacographer.com/portfolio" target="_blank">jacob saindon</a></li>
-					<li>19 Oct. 2022</li>
-					<li>data sources: U.S. Census Bureau <a href="https://data.census.gov/" target="_blank">Data</a> and <a
-							href="https://www.census.gov/cgi-bin/geo/shapefiles/index.php" target="_blank">Shapefiles</a></li>
+					<li>jacob saindon and michael mccanless // nov. 2022</li>
+					<li>Data: <a href="https://www.jeffcomm.org/past-results.html" target="_blank">Jefferson County Circuit Court Commissioner's Office</a>
 				</ul>
 			</div>
 		</footer>
@@ -262,6 +260,10 @@
 							color: "rgba (0,0,0,0)",
 						});
 					});
+
+				// 	layer.on("click", function (e) {
+				// 		map.setView([e.latlng], 16)
+				// 	});
 				},
 			}).addTo(map);
 
@@ -361,7 +363,7 @@
 
 			// create a new Leaflet control object, and position it top left
 			const legendControl = L.control({
-				position: "topright"
+				position: "topleft"
 			});
 
 			// when the legend is added to the map
@@ -396,7 +398,7 @@
 		function addUi(addresses) {
 			// create the slider control
 			var selectControl = L.control({
-				position: "topright"
+				position: "topleft"
 			});
 
 			// when control is added
