@@ -107,16 +107,19 @@
 					<h3 class="py-2">Use our lookup tool to find the purchaser of a foreclosed property</h3>
 					<div class="input-group">
 						<div class="form-outline">
-						<input id="search-input" type="search" id="form1" class="form-control" />
-						<label class="form-label" for="form1">Search</label>
-						</div>
+						<input id="search-input" type="text" class="form-control basicAutocomplete" autocomplete="off">
+						<label class="form-label" for="form1"> Search </label>
+
+						<!-- Trying to make this work...: https://bootstrap-autocomplete.readthedocs.io/en/latest/#text-autocomplete
+						 -->
+
+					</div>
 						<button id="search-button" type="button" class="btn btn-primary">
 						<i class="fas fa-search"></i>
 					</button>
 				</section>
 			</aside>
 		</section>
-
 		<footer class="row bg-black text-white py-3">
 			<div class="col">
 				<ul class="list-unstyled">
@@ -163,12 +166,18 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
 		integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous">
 	</script>
+	<script
+  src="https://code.jquery.com/jquery-3.6.1.js"
+  integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+  crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>
 	<!-- then Leaflet JS -->
 	<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
 		integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
 
 	<!-- then Simple Statistics -->
 	<script src='https://unpkg.com/simple-statistics@7.7.0/dist/simple-statistics.min.js'></script>
+
 	<script>
 		// initial Leaflet map options
 		const options = {
@@ -224,6 +233,11 @@
 				drawMap(data);
 			});
 
+			$('.basicAutoComplete').autoComplete({
+					resolverSettings: {
+							url: 'data/autocomplete.json'
+					}
+			});
 		function drawMap(data) {
 			// create Leaflet data layer and add to map
 			var pointStyles = {
