@@ -2,10 +2,25 @@
 
      // https://www.geeksforgeeks.org/search-bar-using-html-css-and-javascript/ 
 
-    // 1. need to create onclick.function that takes input from search bar
+    // 1. need to create function that takes input from search bar
      var input = document.getElementById("search-input");
         
     // 2. assigns var to that input
+
+    function searchinput(input) {
+        let input = document.getElementById('search-input').value
+        input=input.toLowerCase();
+        let x = document.getElementsByClassName('search');
+          
+        for (i = 0; i < x.length; i++) { 
+            if (!x[i].innerHTML.toLowerCase().includes(input)) {
+                x[i].style.display="none";
+            }
+            else {
+                x[i].style.display="list-item";                 
+            }
+        }
+    }
 
     // 3. var is then crossreferenced w/ "PROPERTY" value in point-foreclosure geo.json
 
