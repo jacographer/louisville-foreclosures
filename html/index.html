@@ -31,6 +31,7 @@
 
 		h3 {
 			font-weight: 200;
+			font-size: 1.5rem;
 		}
 
 		h4 {
@@ -81,10 +82,14 @@
 			clear: both;
 		}
 
-		.leaflet-tooltip {
+		/* .leaflet-tooltip {
 			font-family: 'Nunito', sans-serif;
-			width: 200px;
+			width: 250px;
 			white-space: normal;
+		} */
+
+		.leaflet-popup {
+			font-family: 'Nunito', sans-serif;
 		}
 
 		/* Small devices (landscape phones, 576px and up) */
@@ -122,7 +127,7 @@
 			<aside id="about"
 				class="col-md-4 col-lg-3 col-xl-4 order-md-2 text-white py-2 pl-3 bg-black overflow-auto align-right">
 				<section>
-					<h3 class="py-2">Use our lookup tool to find the purchaser of a foreclosed property</h3>
+					<h3 class="py-2"><b>Click</b> on the points to view details about the foreclosure sale of that property.<br><br><b>Select</b> the dropdown menu to highlight different years.<br><br><b>Search</b> with the lookup tool below to find the purchaser of a foreclosed property</h3>
 					<div class="input-group">
 						<div class="form-outline">
 							<input id="search-input" type="text" class="form-control basicAutocomplete" autocomplete="off"
@@ -345,7 +350,7 @@
 				// I tried to do a .substring() method on the PURCHASER data, but it breaks the map and I can't determine why. Probably has to do with the data format. Added whitespace instead
 
 				// // bind a tooltip to layer with county-specific information
-				layer.bindTooltip(tooltipInfo, {
+				layer.bindPopup(tooltipInfo, {
 					// sticky property so tooltip follows the mouse
 					sticky: true,
 				});
