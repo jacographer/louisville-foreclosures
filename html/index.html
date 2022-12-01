@@ -81,7 +81,7 @@
 			clear: both;
 		}
 
-		.leaflet-tooltip{
+		.leaflet-tooltip {
 			font-family: 'Nunito', sans-serif;
 			width: 200px;
 			white-space: normal;
@@ -119,32 +119,37 @@
 			<div class="col-md-8 col-lg-9 col-xl-8 order-md-1 px-0">
 				<div id="map"></div>
 			</div>
-			<aside id="about" class="col-md-4 col-lg-3 col-xl-4 order-md-2 text-white py-2 pl-3 bg-black overflow-auto align-right">
+			<aside id="about"
+				class="col-md-4 col-lg-3 col-xl-4 order-md-2 text-white py-2 pl-3 bg-black overflow-auto align-right">
 				<section>
 					<h3 class="py-2">Use our lookup tool to find the purchaser of a foreclosed property</h3>
 					<div class="input-group">
 						<div class="form-outline">
-						<input id="search-input" type="text" class="form-control basicAutocomplete" autocomplete="off" placeholder="Search" aria-label="Search" >
+							<input id="search-input" type="text" class="form-control basicAutocomplete" autocomplete="off"
+								placeholder="Search" aria-label="Search">
 
-						<!--
+							<!--
 							Trying to make this work...: https://bootstrap-autocomplete.readthedocs.io/en/latest/#text-autocomplete
 						 -->
 
-						<!-- <label class="form-label" for="form1"> Search </label> -->
+							<!-- <label class="form-label" for="form1"> Search </label> -->
 
 
-					</div>
+						</div>
 						<button id="search-button" type="button" class="btn btn-primary">
-						<i class="fa-regular fa-magnifying-glass">Go</i>
-					</button>
+							<i class="fa-regular fa-magnifying-glass">Go</i>
+						</button>
 				</section>
 			</aside>
 		</section>
 		<footer class="row bg-black text-white py-3">
 			<div class="col">
 				<ul class="list-unstyled">
-					<h4><li>jacob saindon and michael mccanless // nov. 2022</li>
-					<li>Data: <a href="https://www.jeffcomm.org/past-results.html" target="_blank">Jefferson County Circuit Court Commissioner's Office</a></h4>
+					<h4>
+						<li>jacob saindon and michael mccanless // nov. 2022</li>
+						<li>Data: <a href="https://www.jeffcomm.org/past-results.html" target="_blank">Jefferson County Circuit
+								Court Commissioner's Office</a>
+					</h4>
 				</ul>
 			</div>
 		</footer>
@@ -156,7 +161,7 @@
 	-->
 	<div class="bg-secondary py-2 px-3 ml-3 mt-3 text-white" id="legend">
 		<ul class="list-unstyled">
-			<li><span style="background:#fb9a99"></span>2020</li>	
+			<li><span style="background:#fb9a99"></span>2020</li>
 			<li><span style="background:#33a02c"></span>2019</li>
 			<li><span style="background:#b2df8a"></span>2018</li>
 			<li><span style="background:#1f78b4"></span>2017</li>
@@ -167,7 +172,7 @@
 		ui is outside of container-fluid and will be dynamically added to map 
 		Bootstrap classes styles the UI
 	-->
-	
+
 	<div class="btn " id="dropdown-ui">
 		<!-- mr-3 mt-3 -->
 		<select class="btn-secondary dropdown-toggle">
@@ -185,12 +190,11 @@
 	<!-- Add Bootstrap -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
 		integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous">
-	</script>
+		</script>
+	<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+		crossorigin="anonymous"></script>
 	<script
-  src="https://code.jquery.com/jquery-3.6.1.js"
-  integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-  crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>
+		src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>
 	<!-- then Leaflet JS -->
 	<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
 		integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
@@ -201,7 +205,7 @@
 	<script>
 		// initial Leaflet map options
 		const options = {
-			zoomSnap: 0.5,
+			zoomSnap: 1,
 			center: [38.2, -85.72],
 			zoom: 11.5,
 			minZoom: 10,
@@ -255,9 +259,9 @@
 
 		// implement autocomplete on form
 		$('.basicAutoComplete').autoComplete({
-				resolverSettings: {
-						url: "../data/autocomplete.json"
-				}
+			resolverSettings: {
+				url: "../data/autocomplete.json"
+			}
 		});
 
 		// add event listener for search
@@ -283,7 +287,7 @@
 
 				// add hover/touch functionality to each feature layer
 				onEachFeature: function (feature, layer) {
-				// when mousing over a layer
+					// when mousing over a layer
 					layer.on("mouseover", function () {
 						// change the stroke color and bring that element to the front
 						layer
@@ -302,9 +306,10 @@
 						});
 					});
 
-				// 	layer.on("click", function (e) {
-				// 		map.setView([e.latlng], 16)
-				// 	});
+					// on clicking layer
+					layer.on("click", function (e) {
+						map.setView(e.latlng, 15)
+					});
 				},
 			}).addTo(map);
 
@@ -337,7 +342,7 @@
 				// assemble string sequence of info for tooltip (end line break with + operator)
 				let tooltipInfo = `<b>${props["PROPERTY"]}</b><br>Date of Sale: ${props["SALE_DATE"]}<br> Sale Price: ${props["PURCHASE"]}<br>Purchaser: <i>${props["PURCHASER"]}</i>`;
 
-				// I tried to do a .substring() method on the PURCHASER data, but it breaks the map and I can't determine why.
+				// I tried to do a .substring() method on the PURCHASER data, but it breaks the map and I can't determine why. Probably has to do with the data format. Added whitespace instead
 
 				// // bind a tooltip to layer with county-specific information
 				layer.bindTooltip(tooltipInfo, {
@@ -348,6 +353,7 @@
 
 			// update the legend with the current data attribute information
 			// updateLegend(addresses);
+
 		}
 
 		// Get class breaks in data
@@ -365,16 +371,16 @@
 		// 	return values;
 
 
-			// // determine similar clusters
-			// const clusters = ss.ckmeans(values, 5);
+		// // determine similar clusters
+		// const clusters = ss.ckmeans(values, 5);
 
-			// // create an array of the lowest value within each cluster
-			// const breaks = clusters.map(function (cluster) {
-			// 	return [cluster[0], cluster.pop()];
-			// });
+		// // create an array of the lowest value within each cluster
+		// const breaks = clusters.map(function (cluster) {
+		// 	return [cluster[0], cluster.pop()];
+		// });
 
-			// //return array of arrays, e.g., [[0.24,0.25], [0.26, 0.37], etc]
-			// return breaks;
+		// //return array of arrays, e.g., [[0.24,0.25], [0.26, 0.37], etc]
+		// return breaks;
 		// }
 
 		// Get color of county
@@ -387,11 +393,11 @@
 				return "#a6cee3";
 			} else if (year.includes("2017") && (attributeValue == 2017)) {
 				return "#1f78b4";
-			} else if (year.includes("2018")&& (attributeValue == 2018)) {
+			} else if (year.includes("2018") && (attributeValue == 2018)) {
 				return "#b2df8a";
-			} else if (year.includes("2019")&& (attributeValue == 2019)) {
+			} else if (year.includes("2019") && (attributeValue == 2019)) {
 				return "#33a02c";
-			} else if (year.includes("2020")&& (attributeValue == 2020)) {
+			} else if (year.includes("2020") && (attributeValue == 2020)) {
 				return "#fb9a99";
 			} else {
 				return "rgba(255, 255, 255, 0.05)"
