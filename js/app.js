@@ -1,6 +1,33 @@
 (function () {
 
-     // https://www.geeksforgeeks.org/search-bar-using-html-css-and-javascript/ 
+// Tested out the CHATGPT AI and asked it how to build a web searchfunction w/ autocomplete functionality. Will need to do some 
+// updating next week (like not using google API) but this seems really cool. 
+
+    var searchInput = document.getElementById("search-input");
+    var searchButton = document.getElementById("search-button");
+
+    // Create an autocomplete object for the search input
+    var autocomplete = new google.maps.places.Autocomplete(searchInput);
+
+    // Set the custom data source for the autocomplete feature
+    autocomplete.setOptions({
+    types: myData.types,
+    data: myData.data
+    });
+
+    searchButton.addEventListener("click", function() {
+    // Get the search query entered by the user
+    var query = searchInput.value;
+
+    // Use the query to search for the street address
+    // The search results would be displayed on the page in some way (e.g. in a list or table)
+
+    // Once the user selects the desired address, zoom to that location on the map
+    map.zoomTo(selectedAddress);
+    });
+    
+    
+    // https://www.geeksforgeeks.org/search-bar-using-html-css-and-javascript/ 
 
     // 1. need to create function that takes input from search bar
      var input = document.getElementById("search-input");
