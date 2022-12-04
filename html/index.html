@@ -4,7 +4,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Employment in CA</title>
+	<title>Louisville Foreclosures</title>
+	<!-- Add icon library -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
 		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -13,7 +15,7 @@
 		integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
 	<!-- Fonts -->
 	<link
-		href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&family=Raleway:ital,wght@0,200;0,400;0,600;0,800;1,200;1,400;1,600;1,800&display=swap"
+		href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap"
 		rel="stylesheet">
 	<style>
 		body {
@@ -23,7 +25,19 @@
 		}
 
 		h1 {
-			font-weight: 800;
+			font-family: 'Bitter', serif;
+			font-weight: 600;
+		}
+
+		h3 {
+			font-weight: 200;
+			font-size: 1.5rem;
+		}
+
+		h4 {
+			font-family: 'Bitter', serif;
+			font-weight: 200;
+			font-size: 1rem;
 		}
 
 		p {
@@ -31,11 +45,11 @@
 		}
 
 		a {
-			color: pink
+			color: gold
 		}
 
 		a:hover {
-			color: hotpink
+			color: goldenrod
 		}
 
 		#map {
@@ -58,8 +72,6 @@
 			margin: 0 10px 4px 0;
 		}
 
-
-
 		#legend label {
 			font-size: 0.9rem;
 		}
@@ -68,6 +80,16 @@
 			content: '';
 			display: block;
 			clear: both;
+		}
+
+		/* .leaflet-tooltip {
+			font-family: 'Nunito', sans-serif;
+			width: 250px;
+			white-space: normal;
+		} */
+
+		.leaflet-popup {
+			font-family: 'Nunito', sans-serif;
 		}
 
 		/* Small devices (landscape phones, 576px and up) */
@@ -94,7 +116,7 @@
 	<div class="container-fluid">
 		<header class="row bg-black text-white py-3">
 			<div class="col">
-				<h1>Foreclosures in Louisville, KY 20XX-20XX</h1>
+				<h1>Foreclosures in Louisville KY, 2016-2020</h1>
 			</div>
 		</header>
 
@@ -102,28 +124,37 @@
 			<div class="col-md-8 col-lg-9 col-xl-8 order-md-1 px-0">
 				<div id="map"></div>
 			</div>
-			<aside id="about" class="col-md-4 col-lg-3 col-xl-4 order-md-2 text-white py-2 pl-3 bg-black overflow-auto align-right">
+			<aside id="about"
+				class="col-md-4 col-lg-3 col-xl-4 order-md-2 text-white py-2 pl-3 bg-black overflow-auto align-right">
 				<section>
-					<h3 class="py-2">Use our lookup tool to find the purchaser of a foreclosed property</h3>
+					<h3 class="py-2"><b>Click</b> on the points to view details about the foreclosure sale of that property.<br><br><b>Select</b> the dropdown menu to highlight different years.<br><br><b>Search</b> with the lookup tool below to find the purchaser of a foreclosed property</h3>
 					<div class="input-group">
 						<div class="form-outline">
-						<input id="search-input" type="search" id="form1" class="form-control" />
-						<label class="form-label" for="form1">Search</label>
+							<input id="search-input" type="text" class="form-control basicAutocomplete" autocomplete="off"
+								placeholder="Search" aria-label="Search">
+
+							<!--
+							Trying to make this work...: https://bootstrap-autocomplete.readthedocs.io/en/latest/#text-autocomplete
+						 -->
+
+							<!-- <label class="form-label" for="form1"> Search </label> -->
+
+
 						</div>
 						<button id="search-button" type="button" class="btn btn-primary">
-						<i class="fas fa-search"></i>
-					</button>
+							<i class="fa-regular fa-magnifying-glass">Go</i>
+						</button>
 				</section>
 			</aside>
 		</section>
-
 		<footer class="row bg-black text-white py-3">
 			<div class="col">
 				<ul class="list-unstyled">
-					<li><a href="https://jacographer.com/portfolio" target="_blank">jacob saindon</a></li>
-					<li>19 Oct. 2022</li>
-					<li>data sources: U.S. Census Bureau <a href="https://data.census.gov/" target="_blank">Data</a> and <a
-							href="https://www.census.gov/cgi-bin/geo/shapefiles/index.php" target="_blank">Shapefiles</a></li>
+					<h4>
+						<li>jacob saindon and michael mccanless // nov. 2022</li>
+						<li>Data: <a href="https://www.jeffcomm.org/past-results.html" target="_blank">Jefferson County Circuit
+								Court Commissioner's Office</a>
+					</h4>
 				</ul>
 			</div>
 		</footer>
@@ -133,19 +164,29 @@
   legend is outside of container-fluid and will be dynamically added to map
   Bootstrap classes styles the legend
 	-->
-	<div class="bg-secondary py-2 px-3 ml-3 mt-3 text-white" id="legend"></div>
+	<div class="bg-secondary py-2 px-3 ml-3 mt-3 text-white" id="legend">
+		<ul class="list-unstyled">
+			<li><span style="background:#fb9a99"></span>2020</li>
+			<li><span style="background:#33a02c"></span>2019</li>
+			<li><span style="background:#b2df8a"></span>2018</li>
+			<li><span style="background:#1f78b4"></span>2017</li>
+			<li><span style="background:#a6cee3"></span>2016</li>
+	</div>
 
 	<!-- 
 		ui is outside of container-fluid and will be dynamically added to map 
 		Bootstrap classes styles the UI
 	-->
+
 	<div class="btn " id="dropdown-ui">
 		<!-- mr-3 mt-3 -->
 		<select class="btn-secondary dropdown-toggle">
 			<!-- btn-control dropdown-toggle border-0 text-$cyan-200 -->
-			<option value="HC01_VC06" selected>Employed</option>
-			<option value="HC01_VC07">Unemployed</option>
-			<option value="HC01_VC09">Not in Labor Force</option>
+			<option value="2020" selected>2020</option>
+			<option value="2019">2019</option>
+			<option value="2018">2018</option>
+			<option value="2017">2017</option>
+			<option value="2016">2016</option>
 		</select>
 	</div>
 
@@ -154,19 +195,26 @@
 	<!-- Add Bootstrap -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
 		integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous">
-	</script>
+		</script>
+	<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>
 	<!-- then Leaflet JS -->
 	<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
 		integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
 
 	<!-- then Simple Statistics -->
 	<script src='https://unpkg.com/simple-statistics@7.7.0/dist/simple-statistics.min.js'></script>
+
 	<script>
 		// initial Leaflet map options
 		const options = {
-			zoomSnap: 0.1,
-			// center: [40, -90],
-			// zoom: 4,
+			zoomSnap: 1,
+			center: [38.2, -85.72],
+			zoom: 11.5,
+			minZoom: 10,
+			maxZoom: 16,
 			zoomControl: false,
 		};
 		// create Leaflet map and apply options
@@ -182,18 +230,18 @@
 
 		// set global variables for map layer,
 		// mapped attribute, and normalizing attribute
-		let attributeValue = "HC01_VC06"; // Employed
-		const normValue = "HC01_VC03"; // Total population 16+
+		let attributeValue = "2020"; // Employed
+		// const normValue = "HC01_VC03"; // Total population 16+
 
-		// create object to hold legend titles
-		const labels = {
-			"HC01_VC06": "Employed<br>(Aged 16+)",
-			"HC01_VC07": "Unemployed<br>(Aged 16+)",
-			"HC01_VC09": "Not in Labor Force<br>(Aged 16+)"
-		}
+		// // create object to hold legend titles
+		// const labels = {
+		// 	"HC01_VC06": "Employed<br>(Aged 16+)",
+		// 	"HC01_VC07": "Unemployed<br>(Aged 16+)",
+		// 	"HC01_VC09": "Not in Labor Force<br>(Aged 16+)"
+		// }
 
 		// fetch data from a remote source
-		fetch("data/ca_labor.json")
+		fetch("../data/point-foreclosures-all.geojson")
 			// after it is returned...
 			.then(function (response) {
 				// if has a property called ok, and it is true
@@ -214,18 +262,34 @@
 				drawMap(data);
 			});
 
+		// implement autocomplete on form
+		$('.basicAutoComplete').autoComplete({
+			resolverSettings: {
+				url: "../data/autocomplete.json"
+			}
+		});
+
+		// add event listener for search
+		// add search functionality:
+		// 1. Match adddress then trigger "Click" event
+		// 2. Create "Click" event: Zoom to selected layer, open pop-up
+
 		function drawMap(data) {
 			// create Leaflet data layer and add to map
-			const counties = L.geoJson(data, {
+			var pointStyles = {
+				radius: 5,
+				fillColor: "#ff7800",
+				color: "rgba (0,0,0,0)",
+				weight: 1,
+				opacity: 1,
+				fillOpacity: 0.9
+			}
+			const addresses = L.geoJson(data, {
 				// style counties with initial default path options
-				style: function (feature) {
-					return {
-						color: "#20282e",
-						weight: 2,
-						fillOpacity: 1,
-						fillColor: "#1f78b4",
-					};
+				pointToLayer: function (feature, latlng) {
+					return L.circleMarker(latlng, pointStyles)
 				},
+
 				// add hover/touch functionality to each feature layer
 				onEachFeature: function (feature, layer) {
 					// when mousing over a layer
@@ -234,6 +298,7 @@
 						layer
 							.setStyle({
 								color: "#ffffd4",
+								weight: 2,
 							})
 							.bringToFront();
 					});
@@ -242,96 +307,105 @@
 					layer.on("mouseout", function () {
 						// reset the layer style to its original stroke color
 						layer.setStyle({
-							color: "#20282e",
+							color: "rgba (0,0,0,0)",
 						});
+					});
+
+					// on clicking layer
+					layer.on("click", function (e) {
+						map.setView(e.latlng, 15)
 					});
 				},
 			}).addTo(map);
 
 			// fit the map's bounds and zoom level using the counties extent
-			map.fitBounds(counties.getBounds(), {
-				padding: [18, 18], // add padding around counties
-			});
+			// map.fitBounds(addresses.getBounds(), {
+			// 	padding: [18, 18], // add padding around counties
+			// });
 
 			addLegend(); // add empty legend to map
-			addUi(counties); // add the UI controls
-			updateMap(counties); // draw the map
+			addUi(addresses); // add the UI controls
+			updateMap(addresses); // draw the map
 		}
 
-		function updateMap(counties) {
+		function updateMap(addresses) {
 			// you could log counties to console here to
 			// verify the Leaflet layers object is not accessible
 			// and scoped within this function
-			console.log(counties);
-
-			// get the class breaks for the current data attribute
-			const breaks = getClassBreaks(counties);
+			console.log(addresses);
 
 			// loop through each county layer to update the color and tooltip info
-			counties.eachLayer(function (layer) {
+			addresses.eachLayer(function (layer) {
 				const props = layer.feature.properties;
+				const year = props["SALE_DATE"];
 
 				// set the fill color of layer based on its normalized data value
 				layer.setStyle({
-					fillColor: getColor(props[attributeValue] / props[normValue], breaks),
+					fillColor: getColor(year),
 				});
 
 				// assemble string sequence of info for tooltip (end line break with + operator)
-				let tooltipInfo = `<b>${props["NAME"]} County</b></br>
-				${((props[attributeValue] / props[normValue]) * 100).toLocaleString()}%`;
+				let tooltipInfo = `<b>${props["PROPERTY"]}</b><br>Date of Sale: ${props["SALE_DATE"]}<br> Sale Price: ${props["PURCHASE"]}<br>Purchaser: <i>${props["PURCHASER"]}</i>`;
 
-				// bind a tooltip to layer with county-specific information
-				layer.bindTooltip(tooltipInfo, {
+				// I tried to do a .substring() method on the PURCHASER data, but it breaks the map and I can't determine why. Probably has to do with the data format. Added whitespace instead
+
+				// // bind a tooltip to layer with county-specific information
+				layer.bindPopup(tooltipInfo, {
 					// sticky property so tooltip follows the mouse
 					sticky: true,
 				});
 			});
 
 			// update the legend with the current data attribute information
-			updateLegend(breaks);
+			// updateLegend(addresses);
+
 		}
 
 		// Get class breaks in data
-		function getClassBreaks(counties) {
-			// create empty Array for storing values
-			const values = [];
+		// function getYears(addresses) {
+		// 	// create empty Array for storing values
+		// 	const values = [];
 
-			// loop through all the counties
-			counties.eachLayer(function (layer) {
-				let value =
-					layer.feature.properties[attributeValue] /
-					layer.feature.properties[normValue];
-				values.push(value); // push the normalized value for each layer into the Array
-			});
+		// 	// loop through all the counties
+		// 	addresses.eachLayer(function (layer) {
+		// 		let value = layer.feature.properties["SALE_DATE"]
+		// 			// layer.feature.properties[attributeValue] /
+		// 			// layer.feature.properties[normValue];
+		// 		values.push(value); // push the normalized value for each layer into the Array
+		// 	});
+		// 	return values;
 
-			// determine similar clusters
-			const clusters = ss.ckmeans(values, 5);
 
-			// create an array of the lowest value within each cluster
-			const breaks = clusters.map(function (cluster) {
-				return [cluster[0], cluster.pop()];
-			});
+		// // determine similar clusters
+		// const clusters = ss.ckmeans(values, 5);
 
-			//return array of arrays, e.g., [[0.24,0.25], [0.26, 0.37], etc]
-			return breaks;
-		}
+		// // create an array of the lowest value within each cluster
+		// const breaks = clusters.map(function (cluster) {
+		// 	return [cluster[0], cluster.pop()];
+		// });
+
+		// //return array of arrays, e.g., [[0.24,0.25], [0.26, 0.37], etc]
+		// return breaks;
+		// }
 
 		// Get color of county
-		function getColor(d, breaks) {
+		function getColor(year) {
 			// function accepts a single normalized data attribute value
 			// and uses a series of conditional statements to determine which
 			// which color value to return to return to the function caller
 
-			if (d <= breaks[0][1]) {
-				return "#f1eef6";
-			} else if (d <= breaks[1][1]) {
-				return "#d7b5d8";
-			} else if (d <= breaks[2][1]) {
-				return "#df65b0";
-			} else if (d <= breaks[3][1]) {
-				return "#dd1c77";
-			} else if (d <= breaks[4][1]) {
-				return "#980043";
+			if (year.includes("2016") && (attributeValue == 2016)) {
+				return "#a6cee3";
+			} else if (year.includes("2017") && (attributeValue == 2017)) {
+				return "#1f78b4";
+			} else if (year.includes("2018") && (attributeValue == 2018)) {
+				return "#b2df8a";
+			} else if (year.includes("2019") && (attributeValue == 2019)) {
+				return "#33a02c";
+			} else if (year.includes("2020") && (attributeValue == 2020)) {
+				return "#fb9a99";
+			} else {
+				return "rgba(255, 255, 255, 0.05)"
 			}
 		}
 
@@ -340,7 +414,7 @@
 
 			// create a new Leaflet control object, and position it top left
 			const legendControl = L.control({
-				position: "topright"
+				position: "topleft"
 			});
 
 			// when the legend is added to the map
@@ -360,25 +434,22 @@
 			legendControl.addTo(map);
 		}
 
-		function updateLegend(breaks) {
-			// select the legend, add a title, begin an unordered list and assign to a variable
-			const legend = document.querySelector("#legend")
-			legend.innerHTML = `<h5>${labels[attributeValue]}</h5>`;
+		// function updateLegend(year) {
+		// 	// select the legend, add a title, begin an unordered list and assign to a variable
+		// 	const legend = document.querySelector("#legend")
+		// 	legend.innerHTML = `<h5>${labels[year]}</h5>`;
 
-			// loop through the Array of classification break values
-			for (let i = 0; i <= breaks.length - 1; i++) {
-				let color = getColor(breaks[i][0], breaks);
-				legend.innerHTML +=
-					`<div><span style="background:${color}"></span>
-					<label>${(breaks[i][0] * 100).toLocaleString()} -
-					${(breaks[i][1] * 100).toLocaleString()}%</label></div>`;
-			}
-		}
+		// 	// loop through the Array of classification break values
+		// 		let color = getColor(addresses.)
+		// 		legend.innerHTML +=
+		// 			`<div><span style="background:${color}"></span>
+		// 			<label>${[years]}`;
+		// }
 
-		function addUi(counties) {
+		function addUi(addresses) {
 			// create the slider control
 			var selectControl = L.control({
-				position: "topright"
+				position: "topleft"
 			});
 
 			// when control is added
@@ -395,7 +466,7 @@
 				attributeValue = e.target.value;
 
 				// update the map
-				updateMap(counties);
+				updateMap(addresses);
 			});
 		}
 	</script>
