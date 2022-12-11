@@ -31,7 +31,7 @@
 
 		h3 {
 			font-weight: 200;
-			font-size: 1.5rem;
+			font-size: 1.25rem;
 		}
 
 		h4 {
@@ -48,13 +48,50 @@
 			color: gold
 		}
 
+		ul li {
+			padding-left: 0.5rem
+		}
+
 		a:hover {
 			color: goldenrod
 		}
 
 		#map {
-			height: 80vh;
+			height: 60vh;
 			background: #262626;
+		}
+
+		#search-bar {
+			font-size: 1rem;
+			margin: auto;
+			width: 100%;
+			border-radius: 1rem;
+			border-color: gold;
+		}
+
+		.leaflet-control-search {
+			font-family: 'Bitter', serif;
+			color: silver;
+			width: 100%;
+		}
+
+		.search-tooltip {
+			font-family: 'Bitter', serif;
+			width: 85%;
+			font-size: 0.9rem;
+			list-style-type: "\1F50E";
+			padding-left: 1rem;
+			padding-right: 0.5rem;
+			padding-top: 0.5rem;
+			/* background: darkslategray; */
+			color: silver;
+		}
+
+		.search-cancel {
+			font-size: 1.5rem;
+			font-style: normal;
+			text-decoration: none;
+			color: red;
 		}
 
 		#legend,
@@ -82,32 +119,20 @@
 			clear: both;
 		}
 
-		/* .leaflet-tooltip {
-			font-family: 'Nunito', sans-serif;
-			width: 250px;
-			white-space: normal;
-		} */
-
 		.leaflet-popup {
 			font-family: 'Nunito', sans-serif;
 		}
 
-		/* Small devices (landscape phones, 576px and up) */
-		@media (min-width: 576px) {}
-
-		/* Medium devices (tablets, 768px and up) */
-		@media (min-width: 768px) {
-
+		/* 480px and up */
+		@media (min-width: 480px) {
 			aside {
 				height: 80vh;
 			}
+
+			#map {
+				height: 80vh;
+			}
 		}
-
-		/* Large devices (desktops, 992px and up) */
-		@media (min-width: 992px) {}
-
-		/* Extra large devices (large desktops, 1200px and up) */
-		@media (min-width: 1200px) {}
 	</style>
 
 </head>
@@ -127,23 +152,11 @@
 			<aside id="about"
 				class="col-md-4 col-lg-3 col-xl-4 order-md-2 text-white py-2 pl-3 bg-black overflow-auto align-right">
 				<section>
-					<h3 class="py-2"><b>Click</b> on the points to view details about the foreclosure sale of that property.<br><br><b>Select</b> the dropdown menu to highlight different years.<br><br><b>Search</b> with the lookup tool below to find the purchaser of a foreclosed property</h3>
-					<div class="input-group">
-						<div class="form-outline">
-							<input id="search-input" type="text" class="form-control basicAutocomplete" autocomplete="off"
-								placeholder="Search" aria-label="Search">
-
-							<!--
-							Trying to make this work...: https://bootstrap-autocomplete.readthedocs.io/en/latest/#text-autocomplete
-						 -->
-
-							<!-- <label class="form-label" for="form1"> Search </label> -->
-
-
-						</div>
-						<button id="search-button" type="button" class="btn btn-primary">
-							<i class="fa-regular fa-magnifying-glass">Go</i>
-						</button>
+					<h3 class="py-2"><b> &#x25C9 Click</b><i> on the points to view details about the foreclosure sale of that
+							property.</i><br><br><b>&#x2630 Select</b><i> from the dropdown menu to highlight different
+							years.</i><br><br><b>
+							&#128270 Search</b><i> with the lookup tool below to find the purchaser of a foreclosed property.</i></h3>
+					<div id="search-bar"></div>
 				</section>
 			</aside>
 		</section>
@@ -159,11 +172,6 @@
 			</div>
 		</footer>
 	</div>
-
-	<!-- 
-  legend is outside of container-fluid and will be dynamically added to map
-  Bootstrap classes styles the legend
-	-->
 	<div class="bg-secondary py-2 px-3 ml-3 mt-3 text-white" id="legend">
 		<ul class="list-unstyled">
 			<li><span style="background:#fb9a99"></span>2020</li>
@@ -172,16 +180,8 @@
 			<li><span style="background:#1f78b4"></span>2017</li>
 			<li><span style="background:#a6cee3"></span>2016</li>
 	</div>
-
-	<!-- 
-		ui is outside of container-fluid and will be dynamically added to map 
-		Bootstrap classes styles the UI
-	-->
-
 	<div class="btn " id="dropdown-ui">
-		<!-- mr-3 mt-3 -->
 		<select class="btn-secondary dropdown-toggle">
-			<!-- btn-control dropdown-toggle border-0 text-$cyan-200 -->
 			<option value="2020" selected>2020</option>
 			<option value="2019">2019</option>
 			<option value="2018">2018</option>
@@ -189,21 +189,17 @@
 			<option value="2016">2016</option>
 		</select>
 	</div>
-
 	<!-- end ui-controls -->
 
 	<!-- Add Bootstrap -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
 		integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous">
 		</script>
-	<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>
 	<!-- then Leaflet JS -->
 	<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
 		integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
-
+	<!-- Leaflet Search JS -->
+	<script src="https://opengeo.tech/maps/leaflet-search/dist/leaflet-search.min.js"></script>
 	<!-- then Simple Statistics -->
 	<script src='https://unpkg.com/simple-statistics@7.7.0/dist/simple-statistics.min.js'></script>
 
@@ -211,14 +207,14 @@
 		// initial Leaflet map options
 		const options = {
 			zoomSnap: 1,
-			center: [38.2, -85.72],
+			center: [38.22, -85.775],
 			zoom: 11.5,
 			minZoom: 10,
 			maxZoom: 16,
 			zoomControl: false,
 		};
 		// create Leaflet map and apply options
-		const map = L.map("map", options);
+		const map = L.map("map", options)
 		new L.control.zoom({
 			position: "bottomright"
 		}).addTo(map);
@@ -262,18 +258,6 @@
 				drawMap(data);
 			});
 
-		// implement autocomplete on form
-		$('.basicAutoComplete').autoComplete({
-			resolverSettings: {
-				url: "../data/autocomplete.json"
-			}
-		});
-
-		// add event listener for search
-		// add search functionality:
-		// 1. Match adddress then trigger "Click" event
-		// 2. Create "Click" event: Zoom to selected layer, open pop-up
-
 		function drawMap(data) {
 			// create Leaflet data layer and add to map
 			var pointStyles = {
@@ -314,32 +298,47 @@
 					// on clicking layer
 					layer.on("click", function (e) {
 						map.setView(e.latlng, 15)
+						console.log(e)
 					});
 				},
 			}).addTo(map);
 
-			// fit the map's bounds and zoom level using the counties extent
-			// map.fitBounds(addresses.getBounds(), {
-			// 	padding: [18, 18], // add padding around counties
-			// });
-
 			addLegend(); // add empty legend to map
+			addSearch(addresses); // add search bar
 			addUi(addresses); // add the UI controls
 			updateMap(addresses); // draw the map
 		}
 
+		function addSearch(addresses) {
+			const searchBar =
+				new L.control.search({
+					layer: addresses,
+					propertyName: "PROPERTY",
+					// position: "topright",
+					container: "search-bar",
+					autoResize: false,
+					zoom: 15,
+					textPlaceholder: "Start typing address...",
+					textCancel: "Clear selection",
+					minLength: 3,
+					initial: false,
+					collapsed: false,
+					// moveToLocation: (latlng, propertyName, map) => {
+					// 	latlng.layer.fire("click");
+					// },
+				})
+			searchBar.addTo(map);
+		}
+
 		function updateMap(addresses) {
-			// you could log counties to console here to
-			// verify the Leaflet layers object is not accessible
-			// and scoped within this function
 			console.log(addresses);
 
-			// loop through each county layer to update the color and tooltip info
+			// loop through each address layer to update the color and tooltip info
 			addresses.eachLayer(function (layer) {
 				const props = layer.feature.properties;
 				const year = props["SALE_DATE"];
 
-				// set the fill color of layer based on its normalized data value
+				// set the fill color of layer based on its value
 				layer.setStyle({
 					fillColor: getColor(year),
 				});
@@ -347,53 +346,16 @@
 				// assemble string sequence of info for tooltip (end line break with + operator)
 				let tooltipInfo = `<b>${props["PROPERTY"]}</b><br>Date of Sale: ${props["SALE_DATE"]}<br> Sale Price: ${props["PURCHASE"]}<br>Purchaser: <i>${props["PURCHASER"]}</i>`;
 
-				// I tried to do a .substring() method on the PURCHASER data, but it breaks the map and I can't determine why. Probably has to do with the data format. Added whitespace instead
-
 				// // bind a tooltip to layer with county-specific information
 				layer.bindPopup(tooltipInfo, {
 					// sticky property so tooltip follows the mouse
 					sticky: true,
 				});
 			});
-
-			// update the legend with the current data attribute information
-			// updateLegend(addresses);
-
 		}
 
-		// Get class breaks in data
-		// function getYears(addresses) {
-		// 	// create empty Array for storing values
-		// 	const values = [];
-
-		// 	// loop through all the counties
-		// 	addresses.eachLayer(function (layer) {
-		// 		let value = layer.feature.properties["SALE_DATE"]
-		// 			// layer.feature.properties[attributeValue] /
-		// 			// layer.feature.properties[normValue];
-		// 		values.push(value); // push the normalized value for each layer into the Array
-		// 	});
-		// 	return values;
-
-
-		// // determine similar clusters
-		// const clusters = ss.ckmeans(values, 5);
-
-		// // create an array of the lowest value within each cluster
-		// const breaks = clusters.map(function (cluster) {
-		// 	return [cluster[0], cluster.pop()];
-		// });
-
-		// //return array of arrays, e.g., [[0.24,0.25], [0.26, 0.37], etc]
-		// return breaks;
-		// }
-
-		// Get color of county
+		// Get color of address
 		function getColor(year) {
-			// function accepts a single normalized data attribute value
-			// and uses a series of conditional statements to determine which
-			// which color value to return to return to the function caller
-
 			if (year.includes("2016") && (attributeValue == 2016)) {
 				return "#a6cee3";
 			} else if (year.includes("2017") && (attributeValue == 2017)) {
@@ -414,7 +376,7 @@
 
 			// create a new Leaflet control object, and position it top left
 			const legendControl = L.control({
-				position: "topleft"
+				position: "topright"
 			});
 
 			// when the legend is added to the map
@@ -434,22 +396,10 @@
 			legendControl.addTo(map);
 		}
 
-		// function updateLegend(year) {
-		// 	// select the legend, add a title, begin an unordered list and assign to a variable
-		// 	const legend = document.querySelector("#legend")
-		// 	legend.innerHTML = `<h5>${labels[year]}</h5>`;
-
-		// 	// loop through the Array of classification break values
-		// 		let color = getColor(addresses.)
-		// 		legend.innerHTML +=
-		// 			`<div><span style="background:${color}"></span>
-		// 			<label>${[years]}`;
-		// }
-
 		function addUi(addresses) {
 			// create the slider control
 			var selectControl = L.control({
-				position: "topleft"
+				position: "topright"
 			});
 
 			// when control is added
