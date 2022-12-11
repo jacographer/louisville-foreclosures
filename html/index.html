@@ -93,6 +93,16 @@
 			text-decoration: none;
 			color: red;
 		}
+		
+			#top-purchasers-table {
+			border: 1px solid black;
+			border-collapse: collapse;
+		}
+
+			#top-purchasers-table th, #top-purchasers-table td {
+			border: 1px solid black;
+			padding: 8px;
+		}
 
 		#legend,
 		#dropdown-ui {
@@ -157,6 +167,38 @@
 							years.</i><br><br><b>
 							&#128270 Search</b><i> with the lookup tool below to find the purchaser of a foreclosed property.</i></h3>
 					<div id="search-bar"></div>
+						<table id="top-purchasers-table">
+							<tr>
+							  <th>Rank</th>
+							  <th>Name</th>
+							  <th>Number of Properties</th>
+							</tr>
+							<tr>
+							<td>1</td>
+							<td>John Smith</td>
+							<td>15</td>
+						  </tr>
+						  <tr>
+							<td>2</td>
+							<td>Jane Doe</td>
+							<td>12</td>
+						  </tr>
+						  <tr>
+							<td>3</td>
+							<td>Robert Johnson</td>
+							<td>10</td>
+						  </tr>
+						  <tr>
+							<td>4</td>
+							<td>Samantha Williams</td>
+							<td>8</td>
+						  </tr>
+						  <tr>
+							<td>5</td>
+							<td>Christopher Brown</td>
+							<td>7</td>
+						  </tr>
+						  </table>
 				</section>
 			</aside>
 		</section>
@@ -354,7 +396,71 @@
 			});
 		}
 
-		// Get color of address
+		function updateTable(data) {
+				// Fetch the data for the selected year
+				var data= fetchData(data);
+
+				// // Only show the top 5 entries
+				// data = data.slice(0, 5);
+
+				// Get a reference to the table
+				var table = document.getElementById('top-purchasers-table');
+
+				// Loop through the data and add a new row for each entry
+				for (var i = 0; i < data.length; i++) {
+					var entry = data[i];
+
+					// Create a new row
+					var row = document.createElement('tr');
+
+					// Create the cells for the row
+					var rankCell = document.createElement('td');
+					var nameCell = document.createElement('td');
+					var numPropertiesCell = document.createElement('td');
+
+					// Set the cell contents to the data from the entry
+					rankCell.innerHTML = entry.count.PURCHASER;
+					nameCell.innerHTML = entry.PURCHASER;
+					numPropertiesCell.innerHTML = entry.numProperties;
+
+					// Append the cells to the row
+					row.appendChild(rankCell);
+					row.appendChild(nameCell);
+					row.appendChild(numPropertiesCell);
+
+					// Append the row to the table
+					table.appendChild(row);
+				}
+		}
+
+		// Get class breaks in data
+		// function getYears(addresses) {
+		// 	// create empty Array for storing values
+		// 	const values = [];
+
+		// 	// loop through all the counties
+		// 	addresses.eachLayer(function (layer) {
+		// 		let value = layer.feature.properties["SALE_DATE"]
+		// 			// layer.feature.properties[attributeValue] /
+		// 			// layer.feature.properties[normValue];
+		// 		values.push(value); // push the normalized value for each layer into the Array
+		// 	});
+		// 	return values;
+
+
+		// // determine similar clusters
+		// const clusters = ss.ckmeans(values, 5);
+
+		// // create an array of the lowest value within each cluster
+		// const breaks = clusters.map(function (cluster) {
+		// 	return [cluster[0], cluster.pop()];
+		// });
+
+		// //return array of arrays, e.g., [[0.24,0.25], [0.26, 0.37], etc]
+		// return breaks;
+		// }
+
+		// Get color of county
 		function getColor(year) {
 			if (year.includes("2016") && (attributeValue == 2016)) {
 				return "#a6cee3";
