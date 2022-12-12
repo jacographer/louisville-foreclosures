@@ -65,7 +65,7 @@
 			font-size: 1rem;
 			margin: auto;
 			width: 100%;
-			border-radius: 1rem;
+			border-radius: 0.1rem;
 			border-color: gold;
 		}
 
@@ -143,6 +143,13 @@
 				height: 80vh;
 			}
 		}
+
+		.hide {
+			display: none;
+		}
+		.show {
+			display: block;
+		}
 	</style>
 
 </head>
@@ -166,7 +173,12 @@
 							property.</i><br><br><b>&#x2630 Select</b><i> from the dropdown menu to highlight different
 							years.</i><br><br><b>
 							&#128270 Search</b><i> with the lookup tool below to find the purchaser of a foreclosed property.</i></h3>
-					<div id="search-bar"></div>
+					<input type="text" id="search-bar"></input>
+					<div id='search-results' >
+						<select id="search-candidate" name="search-output" class="hide">	
+
+						</select>
+					</div>
 						<table id="top-purchasers-table">
 							<tr>
 							  <th>Rank</th>
@@ -252,7 +264,7 @@
 			center: [38.22, -85.775],
 			zoom: 11.5,
 			minZoom: 10,
-			maxZoom: 16,
+			maxZoom: 17,
 			zoomControl: false,
 		};
 		// create Leaflet map and apply options
@@ -313,6 +325,7 @@
 			const addresses = L.geoJson(data, {
 				// style counties with initial default path options
 				pointToLayer: function (feature, latlng) {
+					latlng = [makeRandom(latlng.lat), makeRandom(latlng.lng)]
 					return L.circleMarker(latlng, pointStyles)
 				},
 
@@ -345,10 +358,63 @@
 				},
 			}).addTo(map);
 
+			console.log(addresses)
+
 			addLegend(); // add empty legend to map
-			addSearch(addresses); // add search bar
+			// addSearch(addresses); // add search bar
 			addUi(addresses); // add the UI controls
 			updateMap(addresses); // draw the map
+			const search = document.querySelector("#search-bar");
+			const results = document.querySelector("#search-results select");
+			search.addEventListener('input', function (e) {
+				if (e.target.value.length > 3) {
+					searchAddresses(e.target.value, addresses, results)
+					results.className = "show"
+				} else {
+					results.className = "hide"
+				}
+			})
+			results.addEventListener('input', function (e) {
+				zoomTo(e.target.value, addresses);
+			});
+		}
+
+		function makeRandom(coord) {
+			const sign = Math.random() < 0.5 ? -1 : 1;
+			return Number(coord) + (Math.random() * 0.0001 * sign);
+		}
+
+		function searchAddresses(v, addresses, results) {
+			let returns = []
+			addresses.eachLayer(function (l) {
+				const address = l.feature.properties.PROPERTY;
+				if (address.toLowerCase().includes(v.toLowerCase())) {
+					returns.push([address, l._leaflet_id])
+				}
+			})
+			returns.sort()
+			returns = returns.map(function (r) {
+				return `<option value="${r[1]}">${r[0]}</option>`
+			})
+			if (returns.length == 0) {
+				returns.push(`<option>No results</option>`)
+			}
+			results.innerHTML = "<option>Select an address</option>";
+			results.innerHTML += `${returns.join('\n')}`;
+		}
+
+		function zoomTo(v, addresses) {
+			addresses.eachLayer(function (l) {
+				const address = l.feature.properties;
+				if (l._leaflet_id == v) {
+					map.setView(l.getLatLng(), 15)
+					l.setStyle({
+						color: "red",
+						weight: 2,
+					})
+					l.openPopup()
+				}
+			})
 		}
 
 		function addSearch(addresses) {
