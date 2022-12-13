@@ -31,17 +31,17 @@
 
 		h3 {
 			font-weight: 200;
-			font-size: 1.25rem;
+			font-size: 1.1rem;
 		}
 
 		h4 {
-			font-family: 'Bitter', serif;
+			font-family: 'Nunito', sans-serif;
 			font-weight: 200;
-			font-size: 1rem;
+			font-size: 0.9rem;
 		}
 
 		p {
-			line-height: 1.7rem;
+			line-height: 1rem;
 		}
 
 		a {
@@ -62,44 +62,45 @@
 		}
 
 		#search-bar {
-			font-size: 1rem;
-			margin: auto;
-			width: 100%;
-			border-radius: 0.1rem;
-			border-color: gold;
-		}
-
-		.leaflet-control-search {
-			font-family: 'Bitter', serif;
-			color: silver;
-			width: 100%;
-		}
-
-		.search-tooltip {
-			font-family: 'Bitter', serif;
-			width: 85%;
+			font-family: 'Nunito', sans-serif;
+			background-color: white;
+			font-style: italic;
+			color: black;
 			font-size: 0.9rem;
-			list-style-type: "\1F50E";
-			padding-left: 1rem;
-			padding-right: 0.5rem;
-			padding-top: 0.5rem;
-			/* background: darkslategray; */
-			color: silver;
+			margin: auto;
+			width: 95%;
+			border: 1.5px none;
+			border-radius: 7.5px
 		}
 
-		.search-cancel {
-			font-size: 1.5rem;
-			font-style: normal;
-			text-decoration: none;
-			color: red;
+		#search-candidate {
+			font-family: 'Bitter', serif;
+			background-color: black;
+			color: gold;
+			font-size: 0.9rem;
+			width: 95%;
+			border: 1.5px solid goldenrod;
+			border-radius: 7.5px
 		}
-		
-			#top-purchasers-table {
+
+		.modal-content {
+			font-size: 0.9rem;
+			width: 100%;
+			background-color: black;
+			border: 1.5px solid gold;
+			color: white;
+			padding: 0.5rem;
+		}
+
+		#top-purchasers-table {
+			font-size: 0.9rem;
 			border: 1px solid black;
 			border-collapse: collapse;
 		}
 
-			#top-purchasers-table th, #top-purchasers-table td {
+		#top-purchasers-table th,
+		#top-purchasers-table td {
+			font-size: 0.9rem;
 			border: 1px solid black;
 			padding: 8px;
 		}
@@ -110,6 +111,14 @@
 			border-radius: 5px;
 			max-width: 200px;
 			font-family: 'Nunito', sans-serif;
+		}
+
+		#modalButton {
+			font-size: 0.9rem;
+			align-content: center;
+			font-style: italic;
+			width: 95%;
+			background-color: gold;
 		}
 
 		#legend span {
@@ -130,7 +139,7 @@
 		}
 
 		.leaflet-popup {
-			font-family: 'Nunito', sans-serif;
+			font-family: 'Bitter', serif;
 		}
 
 		/* 480px and up */
@@ -147,6 +156,7 @@
 		.hide {
 			display: none;
 		}
+
 		.show {
 			display: block;
 		}
@@ -169,48 +179,66 @@
 			<aside id="about"
 				class="col-md-4 col-lg-3 col-xl-4 order-md-2 text-white py-2 pl-3 bg-black overflow-auto align-right">
 				<section>
-					<h3 class="py-2"><b> &#x25C9 Click</b><i> on the points to view details about the foreclosure sale of that
-							property.</i><br><br><b>&#x2630 Select</b><i> from the dropdown menu to highlight different
-							years.</i><br><br><b>
-							&#128270 Search</b><i> with the lookup tool below to find the purchaser of a foreclosed property.</i></h3>
-					<input type="text" id="search-bar"></input>
-					<div id='search-results' >
-						<select id="search-candidate" name="search-output" class="hide">	
 
+					<h3 class="py-2"><b> &#x25C9 Click</b><i> on the points to view details about the foreclosure sale of that
+							property.</i><br><br>
+						<!-- Button trigger modal -->
+						<button id="modalButton" type="button" class="btn" clicked="false">
+							More about foreclosure sales
+						</button>
+
+						<!-- Modal -->
+						<div class="modal fade" id="infoModal" tabindex="-1" role="dialog">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									Foreclosure sales happen when banks foreclose on properties. The properties are auctioned off through
+									the Circuit Court, from whose annual documentation these property's addressed were mapped.<br><br>Not
+									all foreclosed properties are sold. Many on this map were 'Withdrawn,' meaning that foreclosure
+									proceedings began but no sale occured. Commonly, this means that the property owners...etc.
+								</div>
+							</div>
+						</div>
+						<br><br><b>&#x2630 Select</b><i> from the dropdown menu to highlight different years.</i><br><br><b>&#128270
+							Search</b><i> with the lookup tool below to find the purchaser of a foreclosed property.</i>
+					</h3>
+					<input type="text" id="search-bar" placeholder="Begin typing address..."></input>
+					<div id='search-results'>
+						<select id="search-candidate" name="search-output" class="hide">
 						</select>
 					</div>
-						<table id="top-purchasers-table">
-							<tr>
-							  <th>Rank</th>
-							  <th>Name</th>
-							  <th>Number of Properties</th>
-							</tr>
-							<tr>
+
+					<table id="top-purchasers-table">
+						<tr>
+							<th>Rank</th>
+							<th>Name</th>
+							<th>Number of Properties</th>
+						</tr>
+						<tr>
 							<td>1</td>
 							<td>John Smith</td>
 							<td>15</td>
-						  </tr>
-						  <tr>
+						</tr>
+						<tr>
 							<td>2</td>
 							<td>Jane Doe</td>
 							<td>12</td>
-						  </tr>
-						  <tr>
+						</tr>
+						<tr>
 							<td>3</td>
 							<td>Robert Johnson</td>
 							<td>10</td>
-						  </tr>
-						  <tr>
+						</tr>
+						<tr>
 							<td>4</td>
 							<td>Samantha Williams</td>
 							<td>8</td>
-						  </tr>
-						  <tr>
+						</tr>
+						<tr>
 							<td>5</td>
 							<td>Christopher Brown</td>
 							<td>7</td>
-						  </tr>
-						  </table>
+						</tr>
+					</table>
 				</section>
 			</aside>
 		</section>
@@ -218,7 +246,7 @@
 			<div class="col">
 				<ul class="list-unstyled">
 					<h4>
-						<li>jacob saindon and michael mccanless // nov. 2022</li>
+						<li>Jacob Saindon & Michael McCanless // Nov. 2022</li>
 						<li>Data: <a href="https://www.jeffcomm.org/past-results.html" target="_blank">Jefferson County Circuit
 								Court Commissioner's Office</a>
 					</h4>
@@ -278,17 +306,7 @@
 			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 		}).addTo(map);
 
-		// set global variables for map layer,
-		// mapped attribute, and normalizing attribute
 		let attributeValue = "2020"; // Employed
-		// const normValue = "HC01_VC03"; // Total population 16+
-
-		// // create object to hold legend titles
-		// const labels = {
-		// 	"HC01_VC06": "Employed<br>(Aged 16+)",
-		// 	"HC01_VC07": "Unemployed<br>(Aged 16+)",
-		// 	"HC01_VC09": "Not in Labor Force<br>(Aged 16+)"
-		// }
 
 		// fetch data from a remote source
 		fetch("data/point-foreclosures-all.geojson")
@@ -361,9 +379,9 @@
 			console.log(addresses)
 
 			addLegend(); // add empty legend to map
-			// addSearch(addresses); // add search bar
 			addUi(addresses); // add the UI controls
 			updateMap(addresses); // draw the map
+
 			const search = document.querySelector("#search-bar");
 			const results = document.querySelector("#search-results select");
 			search.addEventListener('input', function (e) {
@@ -378,6 +396,21 @@
 				zoomTo(e.target.value, addresses);
 			});
 		}
+
+		const modalButton = document.getElementById("modalButton");
+		const modalWindow = document.getElementById("infoModal");
+		let buttonclick = false;
+		modalButton.addEventListener('click', function () {
+			console.log(buttonclick);
+			if (!buttonclick) {
+				modalWindow.className = "show";
+				modalButton.style.backgroundColor = "goldenrod";
+			} else if (buttonclick == true) {
+				modalWindow.className = "hide";
+				modalButton.style.backgroundColor = "gold";
+			}
+			buttonclick = !buttonclick;
+		});
 
 		function makeRandom(coord) {
 			const sign = Math.random() < 0.5 ? -1 : 1;
@@ -399,7 +432,7 @@
 			if (returns.length == 0) {
 				returns.push(`<option>No results</option>`)
 			}
-			results.innerHTML = "<option>Select an address</option>";
+			results.innerHTML = "<option>Select from below...</option>";
 			results.innerHTML += `${returns.join('\n')}`;
 		}
 
@@ -409,33 +442,13 @@
 				if (l._leaflet_id == v) {
 					map.setView(l.getLatLng(), 15)
 					l.setStyle({
-						color: "red",
-						weight: 2,
+						color: "goldenrod",
+						fillColor: "gold",
+						weight: 2.5,
 					})
 					l.openPopup()
 				}
 			})
-		}
-
-		function addSearch(addresses) {
-			const searchBar =
-				new L.control.search({
-					layer: addresses,
-					propertyName: "PROPERTY",
-					// position: "topright",
-					container: "search-bar",
-					autoResize: false,
-					zoom: 15,
-					textPlaceholder: "Start typing address...",
-					textCancel: "Clear selection",
-					minLength: 3,
-					initial: false,
-					collapsed: false,
-					// moveToLocation: (latlng, propertyName, map) => {
-					// 	latlng.layer.fire("click");
-					// },
-				})
-			searchBar.addTo(map);
 		}
 
 		function updateMap(addresses) {
@@ -452,9 +465,12 @@
 				});
 
 				// assemble string sequence of info for tooltip (end line break with + operator)
-				let tooltipInfo = `<b>${props["PROPERTY"]}</b><br>Date of Sale: ${props["SALE_DATE"]}<br> Sale Price: ${props["PURCHASE"]}<br>Purchaser: <i>${props["PURCHASER"]}</i>`;
+				let tooltipInfo = `<b>${props["PROPERTY"]}</b><br>Date of Sale: ${props["SALE_DATE"]}<br> Sale Price: $${props["PURCHASE"].toLocaleString('en-US', { style: 'currency', currency: 'USD' })}<br>Purchaser: <i>${props["PURCHASER"]}</i>`;
 
-				// // bind a tooltip to layer with county-specific information
+				// bind a tooltip to layer with address-specific information
+				// if (props["SALE_DATE"] || props["PROPERTY"]) {
+				// }
+
 				layer.bindPopup(tooltipInfo, {
 					// sticky property so tooltip follows the mouse
 					sticky: true,
@@ -463,40 +479,40 @@
 		}
 
 		function updateTable(data) {
-				// Fetch the data for the selected year
-				var data= fetchData(data);
+			// Fetch the data for the selected year
+			var data = fetchData(data);
 
-				// // Only show the top 5 entries
-				// data = data.slice(0, 5);
+			// // Only show the top 5 entries
+			// data = data.slice(0, 5);
 
-				// Get a reference to the table
-				var table = document.getElementById('top-purchasers-table');
+			// Get a reference to the table
+			var table = document.getElementById('top-purchasers-table');
 
-				// Loop through the data and add a new row for each entry
-				for (var i = 0; i < data.length; i++) {
-					var entry = data[i];
+			// Loop through the data and add a new row for each entry
+			for (var i = 0; i < data.length; i++) {
+				var entry = data[i];
 
-					// Create a new row
-					var row = document.createElement('tr');
+				// Create a new row
+				var row = document.createElement('tr');
 
-					// Create the cells for the row
-					var rankCell = document.createElement('td');
-					var nameCell = document.createElement('td');
-					var numPropertiesCell = document.createElement('td');
+				// Create the cells for the row
+				var rankCell = document.createElement('td');
+				var nameCell = document.createElement('td');
+				var numPropertiesCell = document.createElement('td');
 
-					// Set the cell contents to the data from the entry
-					rankCell.innerHTML = entry.count.PURCHASER;
-					nameCell.innerHTML = entry.PURCHASER;
-					numPropertiesCell.innerHTML = entry.numProperties;
+				// Set the cell contents to the data from the entry
+				rankCell.innerHTML = entry.count.PURCHASER;
+				nameCell.innerHTML = entry.PURCHASER;
+				numPropertiesCell.innerHTML = entry.numProperties;
 
-					// Append the cells to the row
-					row.appendChild(rankCell);
-					row.appendChild(nameCell);
-					row.appendChild(numPropertiesCell);
+				// Append the cells to the row
+				row.appendChild(rankCell);
+				row.appendChild(nameCell);
+				row.appendChild(numPropertiesCell);
 
-					// Append the row to the table
-					table.appendChild(row);
-				}
+				// Append the row to the table
+				table.appendChild(row);
+			}
 		}
 
 		// Get class breaks in data
