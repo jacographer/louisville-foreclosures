@@ -405,9 +405,11 @@
 			if (!buttonclick) {
 				modalWindow.className = "show";
 				modalButton.style.backgroundColor = "goldenrod";
+				modalButton.innerHTML = "Less about foreclosure sales";
 			} else if (buttonclick == true) {
 				modalWindow.className = "hide";
 				modalButton.style.backgroundColor = "gold";
+				modalButton.innerHTML = "More about foreclosure sales";
 			}
 			buttonclick = !buttonclick;
 		});
@@ -465,12 +467,13 @@
 				});
 
 				// assemble string sequence of info for tooltip (end line break with + operator)
-				let tooltipInfo = `<b>${props["PROPERTY"]}</b><br>Date of Sale: ${props["SALE_DATE"]}<br> Sale Price: $${props["PURCHASE"].toLocaleString('en-US', { style: 'currency', currency: 'USD' })}<br>Purchaser: <i>${props["PURCHASER"]}</i>`;
 
-				// bind a tooltip to layer with address-specific information
-				// if (props["SALE_DATE"] || props["PROPERTY"]) {
+				// if (layer.feature.properties["PURCHASER"] =! null) {
+					let tooltipInfo = `<b>${props["PROPERTY"]}</b><br>Date of Sale: ${props["SALE_DATE"]}<br> Sale Price: $${props["PURCHASE"].toLocaleString('en-US', { style: 'currency', currency: 'USD' })}<br>Purchaser: <i>${props["PURCHASER"]}</i>`;
+				// } else {
+				// 	let tooltipInfo = 'Incomplete Data'
 				// }
-
+				
 				layer.bindPopup(tooltipInfo, {
 					// sticky property so tooltip follows the mouse
 					sticky: true,
