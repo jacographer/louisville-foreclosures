@@ -8,6 +8,8 @@ Our goal is for users to be able to visualize patterns of foreclosure by area, a
 ## Process
 We downloaded and georeferenced foreclosure foreclosure sales results data from the [Jefferson Circuit Court Commissioner's Office](https://jeffcomm.org/past-results.html). Data includes the address, sale date, purchaser and purchase amount.
 
+Immportantly, not all sales were able to be successfully georeferenced. As a result, the data is not comprehensive, yet still representative of spatial trends and major purchasers.
+
 ## Tech stack
 The data was processed in QGIS using the georeferencing tools in MMQGIS. The data was exported as GeoJSON data in order to be be stored and loaded into the map. We used Leaflet to load in and visualize the data. The map interface itself was be built in HTML with Bootstrap and styled using CSS.
 

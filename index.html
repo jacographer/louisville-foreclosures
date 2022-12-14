@@ -67,7 +67,9 @@
 			font-style: italic;
 			color: black;
 			font-size: 0.9rem;
+			text-align: center;
 			margin: auto;
+			height: 2.5rem;
 			width: 95%;
 			border: 1.5px none;
 			border-radius: 7.5px
@@ -78,8 +80,9 @@
 			background-color: black;
 			color: gold;
 			font-size: 0.9rem;
+			height: 2.5rem;
 			width: 95%;
-			border: 1.5px solid goldenrod;
+			border: 1.5px solid gold;
 			border-radius: 7.5px
 		}
 
@@ -105,22 +108,37 @@
 			padding: 8px;
 		}
 
-		#legend,
-		#dropdown-ui {
+		/* #legend {
 			font-size: 1rem;
 			border-radius: 5px;
 			max-width: 200px;
 			font-family: 'Nunito', sans-serif;
+		} */
+
+		#ui-toggle {
+			background-color: #fb9a99;
+			color: black;
+			font-size: 0.9rem;
+			border-radius: 7.5px;
+			text-align: center;
+			height: 2.5rem;
+			width: 75%;
+		}
+
+		#dropdown-ui{
+			width: 100%;
 		}
 
 		#modalButton {
 			font-size: 0.9rem;
-			align-content: center;
 			font-style: italic;
+			color: gold;
+			height: 2.5rem;
 			width: 95%;
-			background-color: gold;
+			border: 1.5px solid gold;
+			border-radius: 7.5px;
 		}
-
+/* 
 		#legend span {
 			width: 20px;
 			height: 20px;
@@ -136,7 +154,7 @@
 			content: '';
 			display: block;
 			clear: both;
-		}
+		} */
 
 		.leaflet-popup {
 			font-family: 'Bitter', serif;
@@ -180,10 +198,23 @@
 				class="col-md-4 col-lg-3 col-xl-4 order-md-2 text-white py-2 pl-3 bg-black overflow-auto align-right">
 				<section>
 
-					<h3 class="py-2"><b> &#x25C9 Click</b><i> on the points to view details about the foreclosure sale of that
-							property.</i><br><br>
+					<h3 class="py-2">
+						<b>&#x2630 Select</b><i> the year to highlight:</i><br><br>
+						<!-- ui-controls -->
+						<div class="btn " id="dropdown-ui">
+							<select id="ui-toggle" class="dropdown-toggle">
+								<option value="2020" selected>2020</option>
+								<option value="2019">2019</option>
+								<option value="2018">2018</option>
+								<option value="2017">2017</option>
+								<option value="2016">2016</option>
+							</select>
+						</div>
+						<!-- end ui-controls -->
+						
+						<br><br><b>&#x25C9 Click</b><i> on points for foreclosure sale details.</i><br><br>
 						<!-- Button trigger modal -->
-						<button id="modalButton" type="button" class="btn" clicked="false">
+						<button id="modalButton" type="button" class="btn">
 							More about foreclosure sales
 						</button>
 
@@ -198,15 +229,19 @@
 								</div>
 							</div>
 						</div>
-						<br><br><b>&#x2630 Select</b><i> from the dropdown menu to highlight different years.</i><br><br><b>&#128270
-							Search</b><i> with the lookup tool below to find the purchaser of a foreclosed property.</i>
-					</h3>
+
+							<br><br><b>&#128270
+							Search</b><i> foreclosure sales by address:</i><br><br>
+
 					<input type="text" id="search-bar" placeholder="Begin typing address..."></input>
 					<div id='search-results'>
 						<select id="search-candidate" name="search-output" class="hide">
 						</select>
 					</div>
-
+					<br>
+					<b>&#8862 View</b><i> top purchasers:</i>
+					<br>
+				</h3>
 					<table id="top-purchasers-table">
 						<tr>
 							<th>Rank</th>
@@ -246,7 +281,7 @@
 			<div class="col">
 				<ul class="list-unstyled">
 					<h4>
-						<li>Jacob Saindon & Michael McCanless // Nov. 2022</li>
+						<li>Jacob Saindon & Michael McCanless | Nov. 2022</li>
 						<li>Data: <a href="https://www.jeffcomm.org/past-results.html" target="_blank">Jefferson County Circuit
 								Court Commissioner's Office</a>
 					</h4>
@@ -254,24 +289,14 @@
 			</div>
 		</footer>
 	</div>
-	<div class="bg-secondary py-2 px-3 ml-3 mt-3 text-white" id="legend">
+	<!-- <div class="bg-secondary py-2 px-3 ml-3 mt-3 text-white" id="legend">
 		<ul class="list-unstyled">
 			<li><span style="background:#fb9a99"></span>2020</li>
 			<li><span style="background:#33a02c"></span>2019</li>
 			<li><span style="background:#b2df8a"></span>2018</li>
 			<li><span style="background:#1f78b4"></span>2017</li>
 			<li><span style="background:#a6cee3"></span>2016</li>
-	</div>
-	<div class="btn " id="dropdown-ui">
-		<select class="btn-secondary dropdown-toggle">
-			<option value="2020" selected>2020</option>
-			<option value="2019">2019</option>
-			<option value="2018">2018</option>
-			<option value="2017">2017</option>
-			<option value="2016">2016</option>
-		</select>
-	</div>
-	<!-- end ui-controls -->
+	</div> -->
 
 	<!-- Add Bootstrap -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
@@ -378,7 +403,7 @@
 
 			console.log(addresses)
 
-			addLegend(); // add empty legend to map
+			// addLegend(); // add empty legend to map
 			addUi(addresses); // add the UI controls
 			updateMap(addresses); // draw the map
 
@@ -404,11 +429,13 @@
 			console.log(buttonclick);
 			if (!buttonclick) {
 				modalWindow.className = "show";
-				modalButton.style.backgroundColor = "goldenrod";
+				modalButton.style.borderColor = "goldenrod";
+				modalButton.style.color = "goldenrod";
 				modalButton.innerHTML = "Less about foreclosure sales";
 			} else if (buttonclick == true) {
 				modalWindow.className = "hide";
-				modalButton.style.backgroundColor = "gold";
+				modalButton.style.borderColor = "gold";
+				modalButton.style.color = "gold";
 				modalButton.innerHTML = "More about foreclosure sales";
 			}
 			buttonclick = !buttonclick;
@@ -466,20 +493,19 @@
 					fillColor: getColor(year),
 				});
 
-				// assemble string sequence of info for tooltip (end line break with + operator)
-
-				// if (layer.feature.properties["PURCHASER"] =! null) {
-					let tooltipInfo = `<b>${props["PROPERTY"]}</b><br>Date of Sale: ${props["SALE_DATE"]}<br> Sale Price: $${props["PURCHASE"].toLocaleString('en-US', { style: 'currency', currency: 'USD' })}<br>Purchaser: <i>${props["PURCHASER"]}</i>`;
-				// } else {
-				// 	let tooltipInfo = 'Incomplete Data'
-				// }
-				
+				let tooltipInfo = '';
+				if (props["PURCHASER"] == "WITHDRAWN") {
+					tooltipInfo = `<b>${props["PROPERTY"]}</b><br><i>Sale Withdrawn</i>, ${props["SALE_DATE"]}.<br>A withdrawn foreclosure sale means that the lender canceled the judicial sale of the property. This can occur for a variety of reasons, including non-judicial sale, debt settlement, delay, or legal proceedings.`;
+				} else if (layer.feature.properties.PROPERTY) {
+					tooltipInfo = `<b>${props["PROPERTY"]}</b><br>Date of Sale: ${props["SALE_DATE"]}<br> Sale Price: $${props["PURCHASE"].toLocaleString('en-US', { style: 'currency', currency: 'USD' })}<br>Purchaser: <i>${props["PURCHASER"]}</i>`;
+				} else {
+					tooltipInfo = `<b>Incomplete Sale Data</b><br><i>For some foreclosed properties, the data available through the courts is incomplete.</i>`;
+				};
 				layer.bindPopup(tooltipInfo, {
-					// sticky property so tooltip follows the mouse
 					sticky: true,
 				});
-			});
-		}
+      });
+    };
 
 		function updateTable(data) {
 			// Fetch the data for the selected year
@@ -563,49 +589,50 @@
 		}
 
 		// Add legend to map
-		function addLegend() {
+		// function addLegend() {
 
-			// create a new Leaflet control object, and position it top left
-			const legendControl = L.control({
-				position: "topright"
-			});
+		// 	// create a new Leaflet control object, and position it top left
+		// 	const legendControl = L.control({
+		// 		position: "topright"
+		// 	});
 
-			// when the legend is added to the map
-			legendControl.onAdd = function () {
-				// select a div element with an id attribute of legend
-				const legend = L.DomUtil.get("legend");
+		// 	// when the legend is added to the map
+		// 	legendControl.onAdd = function () {
+		// 		// select a div element with an id attribute of legend
+		// 		const legend = L.DomUtil.get("legend");
 
-				// disable scroll and click/touch on map when on legend
-				L.DomEvent.disableScrollPropagation(legend);
-				L.DomEvent.disableClickPropagation(legend);
+		// 		// disable scroll and click/touch on map when on legend
+		// 		L.DomEvent.disableScrollPropagation(legend);
+		// 		L.DomEvent.disableClickPropagation(legend);
 
-				// return the selection to the method
-				return legend;
-			};
+		// 		// return the selection to the method
+		// 		return legend;
+		// 	};
 
-			// add the empty legend div to the map
-			legendControl.addTo(map);
-		}
+		// 	// add the empty legend div to the map
+		// 	legendControl.addTo(map);
+		// }
 
 		function addUi(addresses) {
-			// create the slider control
-			var selectControl = L.control({
-				position: "topright"
-			});
+		// 	// create the slider control
+		// 	var selectControl = L.control({
+		// 		position: "topright"
+		// 	});
 
-			// when control is added
-			selectControl.onAdd = function () {
-				// get the element with id attribute of ui-controls
-				return L.DomUtil.get("dropdown-ui");
-			};
-			// add the control to the map
-			selectControl.addTo(map);
+		// 	// when control is added
+		// 	selectControl.onAdd = function () {
+		// 		// get the element with id attribute of ui-controls
+		// 		return L.DomUtil.get("dropdown-ui");
+		// 	};
+		// 	// add the control to the map
+		// 	selectControl.addTo(map);
 
 			const dropdown = document.querySelector('#dropdown-ui select')
+			// const toggle = document.getElementById('#ui-toggle')
 			dropdown.addEventListener('change', function (e) {
 				// get the value of the selected option
 				attributeValue = e.target.value;
-
+				this.style.backgroundColor = getColor(attributeValue);
 				// update the map
 				updateMap(addresses);
 			});
