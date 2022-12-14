@@ -38,6 +38,9 @@
 			font-family: 'Nunito', sans-serif;
 			font-weight: 200;
 			font-size: 0.9rem;
+			text-align: center;
+			font-style: italic;
+			color: slategray;
 		}
 
 		p {
@@ -45,7 +48,7 @@
 		}
 
 		a {
-			color: gold
+			color: lightgray;
 		}
 
 		ul li {
@@ -53,7 +56,7 @@
 		}
 
 		a:hover {
-			color: goldenrod
+			color: gold
 		}
 
 		#map {
@@ -71,12 +74,16 @@
 			margin: auto;
 			height: 2.5rem;
 			width: 95%;
-			border: 1.5px none;
-			border-radius: 7.5px
+			border-radius: 7.5px;
+			border: none
+		}
+
+		#search-bar:hover {
+			border: 1.5px solid gold;
 		}
 
 		#search-candidate {
-			font-family: 'Bitter', serif;
+			font-family: 'Nunito', sans-serif;
 			background-color: black;
 			color: gold;
 			font-size: 0.9rem;
@@ -123,6 +130,11 @@
 			text-align: center;
 			height: 2.5rem;
 			width: 75%;
+			border: none
+		}
+
+		#ui-toggle:hover{
+			border: 1.5px solid gold;
 		}
 
 		#dropdown-ui{
@@ -131,12 +143,17 @@
 
 		#modalButton {
 			font-size: 0.9rem;
-			font-style: italic;
-			color: gold;
+			background-color: lightgray;
+			color: black;
 			height: 2.5rem;
 			width: 95%;
+			border: none;
+			border-radius: 7.5px
+		}
+
+		#modalButton:hover {
+			background-color: darkgray;
 			border: 1.5px solid gold;
-			border-radius: 7.5px;
 		}
 /* 
 		#legend span {
@@ -163,11 +180,11 @@
 		/* 480px and up */
 		@media (min-width: 480px) {
 			aside {
-				height: 80vh;
+				height: 82vh;
 			}
 
 			#map {
-				height: 80vh;
+				height: 82vh;
 			}
 		}
 
@@ -225,7 +242,8 @@
 									Foreclosure sales happen when banks foreclose on properties. The properties are auctioned off through
 									the Circuit Court, from whose annual documentation these property's addressed were mapped.<br><br>Not
 									all foreclosed properties are sold. Many on this map were 'Withdrawn,' meaning that foreclosure
-									proceedings began but no sale occured. Commonly, this means that the property owners...etc.
+									proceedings began but no sale occured. Commonly, this means that the property owners...etc.<br><br>Find the source data at the <a href="https://www.jeffcomm.org/past-results.html" target="_blank">Jefferson County Circuit
+										Court Commissioner's Office</a>
 								</div>
 							</div>
 						</div>
@@ -279,14 +297,10 @@
 		</section>
 		<footer class="row bg-black text-white py-3">
 			<div class="col">
-				<ul class="list-unstyled">
 					<h4>
-						<li>Jacob Saindon & Michael McCanless | Nov. 2022</li>
-						<li>Data: <a href="https://www.jeffcomm.org/past-results.html" target="_blank">Jefferson County Circuit
-								Court Commissioner's Office</a>
+					Map created by <a href="https://jacographer.com/">Jacob Saindon</a> & 
+					<a href="https://mmccanless.github.io">Michael McCanless</a> | Nov. 2022
 					</h4>
-				</ul>
-			</div>
 		</footer>
 	</div>
 	<!-- <div class="bg-secondary py-2 px-3 ml-3 mt-3 text-white" id="legend">
@@ -429,13 +443,13 @@
 			console.log(buttonclick);
 			if (!buttonclick) {
 				modalWindow.className = "show";
-				modalButton.style.borderColor = "goldenrod";
-				modalButton.style.color = "goldenrod";
+				// modalButton.style.borderColor = "darkgray";
+				modalButton.style.backgroundColor = "darkgray";
 				modalButton.innerHTML = "Less about foreclosure sales";
 			} else if (buttonclick == true) {
 				modalWindow.className = "hide";
-				modalButton.style.borderColor = "gold";
-				modalButton.style.color = "gold";
+				// modalButton.style.borderColor = "lightgray";
+				modalButton.style.backgroundColor = "lightgray";
 				modalButton.innerHTML = "More about foreclosure sales";
 			}
 			buttonclick = !buttonclick;
