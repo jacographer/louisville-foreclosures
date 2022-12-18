@@ -260,38 +260,18 @@
 					<b>&#8862 View</b><i> top purchasers:</i>
 					<br>
 				</h3>
-					<table id="top-purchasers-table">
-						<tr>
-							<th>Rank</th>
-							<th>Name</th>
-							<th>Number of Properties</th>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>John Smith</td>
-							<td>15</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>Jane Doe</td>
-							<td>12</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>Robert Johnson</td>
-							<td>10</td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>Samantha Williams</td>
-							<td>8</td>
-						</tr>
-						<tr>
-							<td>5</td>
-							<td>Christopher Brown</td>
-							<td>7</td>
-						</tr>
-					</table>
+				<table id="top-purchasers-table">
+					<thead>
+					  <tr>
+						<th>Rank</th>
+						<th>Name</th>
+						<th>Number of Properties</th>
+					  </tr>
+					</thead>
+					<tbody>
+					  <!-- Table rows will be added here by the updateTable function -->
+					</tbody>
+				  </table>
 				</section>
 			</aside>
 		</section>
@@ -522,42 +502,115 @@
       });
     };
 
-		function updateTable(data) {
-			// Fetch the data for the selected year
-			var data = fetchData(data);
+		// function updateTable(data) {
+		// 	// Fetch the data for the selected year
+		// 	var data = fetchData(data);
 
-			// // Only show the top 5 entries
-			// data = data.slice(0, 5);
+		// 	// // Only show the top 5 entries
+		// 	// data = data.slice(0, 5);
 
-			// Get a reference to the table
-			var table = document.getElementById('top-purchasers-table');
+		// 	// Get a reference to the table
+		// 	var table = document.getElementById('top-purchasers-table');
 
-			// Loop through the data and add a new row for each entry
-			for (var i = 0; i < data.length; i++) {
-				var entry = data[i];
+		// 	// Loop through the data and add a new row for each entry
+		// 	for (var i = 0; i < data.length; i++) {
+		// 		var entry = data[i];
 
-				// Create a new row
-				var row = document.createElement('tr');
+		// 		// Create a new row
+		// 		var row = document.createElement('tr');
 
-				// Create the cells for the row
-				var rankCell = document.createElement('td');
-				var nameCell = document.createElement('td');
-				var numPropertiesCell = document.createElement('td');
+		// 		// Create the cells for the row
+		// 		var rankCell = document.createElement('td');
+		// 		var nameCell = document.createElement('td');
+		// 		var numPropertiesCell = document.createElement('td');
 
-				// Set the cell contents to the data from the entry
-				rankCell.innerHTML = entry.count.PURCHASER;
-				nameCell.innerHTML = entry.PURCHASER;
-				numPropertiesCell.innerHTML = entry.numProperties;
+		// 		// Set the cell contents to the data from the entry
+		// 		rankCell.innerHTML = entry.count.PURCHASER;
+		// 		nameCell.innerHTML = entry.PURCHASER;
+		// 		numPropertiesCell.innerHTML = entry.numProperties;
+
+		// 		// Append the cells to the row
+		// 		row.appendChild(rankCell);
+		// 		row.appendChild(nameCell);
+		// 		row.appendChild(numPropertiesCell);
+
+		// 		// Append the row to the table
+		// 		table.appendChild(row);
+		// 	}
+		// }
+
+		function getPurchaserCount(addresses) {
+			
+			const purchaserCounts = {};
+
+				// Iterate through each feature in the geojson object
+				geojson.features.forEach(feature => {
+				// Get the name of the county
+				const name = feature.properties.PURCHASER;
+
+				// // If the bane is not yet in the dictionary, add it with a count of 0
+				// if (!purchaserCounts[name]) {
+				// 	purchaserCounts[name] = 0;
+				// }
+
+				// Increment the count for the county by the number of purchasers in this feature
+				purchaserCounts[name] += feature.properties.PURCHASER;
+				});
+
+			// Return the dictionary of county names and purchaser counts
+			return purchaserCounts;
+			console.log(purchaserCounts);
+		}
+
+
+		function updateTable(addresses) {
+
+			// Get the table body element
+			const tableBody = document.querySelector('#top-purchasers-table tbody');
+
+			// // Clear the table body
+			// tableBody.innerHTML = '';
+
+			// Get the current count of purchasers for the given year
+			const purchaserCount = getPurchaserCount(addresses);
+
+			// Sort the purchaser counts in descending order
+			const sortedPurchasers = Object.entries(purchaserCount).sort((a, b) => b[1] - a[1]);
+
+			// Take the top 5 purchasers
+			const topPurchasers = sortedPurchasers.slice(0, 5);
+
+			// Create a row for each purchaser
+			const rows = topPurchasers.map(([name, count]) => {
+				// Create a new table row element
+				const row = document.createElement('tr');
+
+				// Create a new table cell element for the name
+				const nameCell = document.createElement('td');
+				nameCell.textContent = name;
+
+				// Create a new table cell element for the count
+				const countCell = document.createElement('td');
+				countCell.textContent = count;
 
 				// Append the cells to the row
-				row.appendChild(rankCell);
 				row.appendChild(nameCell);
-				row.appendChild(numPropertiesCell);
+				row.appendChild(countCell);
 
-				// Append the row to the table
-				table.appendChild(row);
-			}
+				return row;
+			});
+
+			// Append the rows to the table body
+			rows.forEach(row => tableBody.appendChild(row));
+
 		}
+
+				// const yearInput = document.querySelector('#year-input');
+				// yearInput.addEventListener('change', function() {
+				// const year = this.value;
+				// addUi(year);
+			// });
+					
 
 		// Get class breaks in data
 		// function getYears(addresses) {
@@ -650,6 +703,7 @@
 				this.style.backgroundColor = getColor(attributeValue);
 				// update the map
 				updateMap(addresses);
+				updateTable(addresses);
 			});
 		}
 	</script>
