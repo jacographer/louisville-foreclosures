@@ -263,7 +263,7 @@
 				<table id="top-purchasers-table">
 					<thead>
 					  <tr>
-						<th>Rank</th>
+						<!-- <th>Rank</th> -->
 						<th>Name</th>
 						<th>Number of Properties</th>
 					  </tr>
@@ -347,6 +347,8 @@
 				// console.log parameters first.
 				console.log(data);
 				// call draw map and send data as parameter
+				getPurchaserCount(data);
+				updateTable(data);
 				drawMap(data);
 			});
 
@@ -539,31 +541,32 @@
 		// 	}
 		// }
 
-		function getPurchaserCount(addresses) {
+		function getPurchaserCount(data) {
 			
 			const purchaserCounts = {};
 
 				// Iterate through each feature in the geojson object
-				geojson.features.forEach(feature => {
-				// Get the name of the county
+				data.features.forEach(feature => {
+				// Get the name of the purchaser
 				const name = feature.properties.PURCHASER;
 
-				// // If the bane is not yet in the dictionary, add it with a count of 0
-				// if (!purchaserCounts[name]) {
-				// 	purchaserCounts[name] = 0;
-				// }
+				// If the name is not yet in the dictionary, add it with a count of 0
+				if (!purchaserCounts[name]) {
+					purchaserCounts[name] = 0;
+				}
 
-				// Increment the count for the county by the number of purchasers in this feature
-				purchaserCounts[name] += feature.properties.PURCHASER;
+				// Increment the count for the purchaser by 1
+				purchaserCounts[name] += 1;
 				});
 
-			// Return the dictionary of county names and purchaser counts
-			return purchaserCounts;
-			console.log(purchaserCounts);
+				// Return the dictionary of purchaser names and counts
+				return purchaserCounts;
+
+				console.log(purchaserCounts); // log the dictionary of purchaser names and counts
 		}
 
 
-		function updateTable(addresses) {
+		function updateTable(data) {
 
 			// Get the table body element
 			const tableBody = document.querySelector('#top-purchasers-table tbody');
@@ -572,13 +575,17 @@
 			// tableBody.innerHTML = '';
 
 			// Get the current count of purchasers for the given year
-			const purchaserCount = getPurchaserCount(addresses);
+			const purchaserCount = getPurchaserCount(data);
 
 			// Sort the purchaser counts in descending order
 			const sortedPurchasers = Object.entries(purchaserCount).sort((a, b) => b[1] - a[1]);
 
-			// Take the top 5 purchasers
-			const topPurchasers = sortedPurchasers.slice(0, 5);
+			// // Take the top 5 purchasers
+			// const topPurchasers = sortedPurchasers.slice(1, 2, 7, 8);
+
+			const topPurchasers = sortedPurchasers.filter((purchaser, index) => {
+				return index !== 0 && index !== 3 && index !== 4 && index !== 5;
+				}).slice(0, 5);
 
 			// Create a row for each purchaser
 			const rows = topPurchasers.map(([name, count]) => {
@@ -681,7 +688,7 @@
 		// 	legendControl.addTo(map);
 		// }
 
-		function addUi(addresses) {
+		function addUi(addresses, data) {
 		// 	// create the slider control
 		// 	var selectControl = L.control({
 		// 		position: "topright"
@@ -703,7 +710,7 @@
 				this.style.backgroundColor = getColor(attributeValue);
 				// update the map
 				updateMap(addresses);
-				updateTable(addresses);
+				// updateTable(data);
 			});
 		}
 	</script>
