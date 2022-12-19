@@ -106,21 +106,24 @@
 			font-size: 0.9rem;
 			border: 1px solid black;
 			border-collapse: collapse;
+			width: 95%;
 		}
 
-		#top-purchasers-table th,
+		#top-purchasers-table th {
+			color: gold;
+			text-align: center;
+			font-size: 0.9rem;
+			border: 0.5px solid lightgray;
+			padding: 8px;
+			width: 75%;
+		}
+
 		#top-purchasers-table td {
 			font-size: 0.9rem;
-			border: 1px solid black;
+			border: 0.5px solid lightgray;
 			padding: 8px;
+			width: 75%;
 		}
-
-		/* #legend {
-			font-size: 1rem;
-			border-radius: 5px;
-			max-width: 200px;
-			font-family: 'Nunito', sans-serif;
-		} */
 
 		#ui-toggle {
 			background-color: #fb9a99;
@@ -133,11 +136,11 @@
 			border: none
 		}
 
-		#ui-toggle:hover{
+		#ui-toggle:hover {
 			border: 1.5px solid gold;
 		}
 
-		#dropdown-ui{
+		#dropdown-ui {
 			width: 100%;
 		}
 
@@ -155,23 +158,6 @@
 			background-color: darkgray;
 			border: 1.5px solid gold;
 		}
-/* 
-		#legend span {
-			width: 20px;
-			height: 20px;
-			float: left;
-			margin: 0 10px 4px 0;
-		}
-
-		#legend label {
-			font-size: 0.9rem;
-		}
-
-		#legend label:after {
-			content: '';
-			display: block;
-			clear: both;
-		} */
 
 		.leaflet-popup {
 			font-family: 'Bitter', serif;
@@ -228,7 +214,7 @@
 							</select>
 						</div>
 						<!-- end ui-controls -->
-						
+
 						<br><br><b>&#x25C9 Click</b><i> on points for foreclosure sale details.</i><br><br>
 						<!-- Button trigger modal -->
 						<button id="modalButton" type="button" class="btn">
@@ -242,56 +228,55 @@
 									Foreclosure sales happen when banks foreclose on properties. The properties are auctioned off through
 									the Circuit Court, from whose annual documentation these property's addressed were mapped.<br><br>Not
 									all foreclosed properties are sold. Many on this map were 'Withdrawn,' meaning that foreclosure
-									proceedings began but no sale occured. Commonly, this means that the property owners...etc.<br><br>Find the source data at the <a href="https://www.jeffcomm.org/past-results.html" target="_blank">Jefferson County Circuit
+									proceedings began but no sale occured. Commonly, this means that the property
+									owners...etc.<br><br>Find the source data at the <a href="https://www.jeffcomm.org/past-results.html"
+										target="_blank">Jefferson County Circuit
 										Court Commissioner's Office</a>
 								</div>
 							</div>
 						</div>
 
-							<br><br><b>&#128270
+						<br><br><b>&#128270
 							Search</b><i> foreclosure sales by address:</i><br><br>
 
-					<input type="text" id="search-bar" placeholder="Begin typing address..."></input>
-					<div id='search-results'>
-						<select id="search-candidate" name="search-output" class="hide">
-						</select>
-					</div>
+						<input type="text" id="search-bar" placeholder="Begin typing address..."></input>
+						<div id='search-results'>
+							<select id="search-candidate" name="search-output" class="hide">
+							</select>
+						</div>
+						<br>
+						<b>&#8862 View</b><i> top purchasers for the selected year*:</i>
+						<br>
+					</h3>
+					<table id="top-purchasers-table">
+						<thead>
+							<tr>
+								<!-- <th>Rank</th> -->
+								<th>Name</th>
+								<th>Properties</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Table rows will be added here by the updateTable function -->
+						</tbody>
+					</table>
 					<br>
-					<b>&#8862 View</b><i> top purchasers:</i>
-					<br>
-				</h3>
-				<table id="top-purchasers-table">
-					<thead>
-					  <tr>
-						<!-- <th>Rank</th> -->
-						<th>Name</th>
-						<th>Number of Properties</th>
-					  </tr>
-					</thead>
-					<tbody>
-					  <!-- Table rows will be added here by the updateTable function -->
-					</tbody>
-				  </table>
+					<h4><i>*Excluding withdrawn foreclosure sales and properties purchased by Jefferson County</i></h4>
 				</section>
 			</aside>
 		</section>
 		<footer class="row bg-black text-white py-3">
 			<div class="col">
-					<h4>
-					Map created by <a href="https://jacographer.com" target="_blank">Jacob Saindon</a> & 
-					<a href="https://mmccanless.github.io" target="_blank">Michael McCanless</a> | Nov. 2022 | <a href="https://github.com/jacographer/louisville-foreclosures/blob/main/readme.md" target="_blank">Metadata</a><br>
-					Many thanks to <a href="https://boydx.github.io" target="_blank">Boyd Shearer</a> for his instruction and assistance.
-					</h4>
+				<h4>
+					Map created by <a href="https://jacographer.com" target="_blank">Jacob Saindon</a> &
+					<a href="https://mmccanless.github.io" target="_blank">Michael McCanless</a> | Nov. 2022 | <a
+						href="https://github.com/jacographer/louisville-foreclosures/blob/main/readme.md"
+						target="_blank">Metadata</a><br>
+					Many thanks to <a href="https://boydx.github.io" target="_blank">Boyd Shearer</a> for his instruction and
+					assistance.
+				</h4>
 		</footer>
 	</div>
-	<!-- <div class="bg-secondary py-2 px-3 ml-3 mt-3 text-white" id="legend">
-		<ul class="list-unstyled">
-			<li><span style="background:#fb9a99"></span>2020</li>
-			<li><span style="background:#33a02c"></span>2019</li>
-			<li><span style="background:#b2df8a"></span>2018</li>
-			<li><span style="background:#1f78b4"></span>2017</li>
-			<li><span style="background:#a6cee3"></span>2016</li>
-	</div> -->
 
 	<!-- Add Bootstrap -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
@@ -326,31 +311,22 @@
 			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 		}).addTo(map);
 
-		let attributeValue = "2020"; // Employed
-
 		// fetch data from a remote source
 		fetch("data/point-foreclosures-all.geojson")
-			// after it is returned...
 			.then(function (response) {
-				// if has a property called ok, and it is true
 				if (response.ok) {
-					// The API call was successful!
-					// Parse the JSON into a useable format, then return it
 					return response.json();
 				} else {
 					throw new Error(`HTTP error! status: ${response.status}`);
 				}
 			})
-			// The returned response is now data in a new then method
 			.then(function (data) {
-				// This is the JSON from our response
-				// console.log parameters first.
 				console.log(data);
 				// call draw map and send data as parameter
-				getPurchaserCount(data);
-				updateTable(data);
 				drawMap(data);
 			});
+
+		let attributeValue = "2020"; // Employed
 
 		function drawMap(data) {
 			// create Leaflet data layer and add to map
@@ -398,9 +374,8 @@
 				},
 			}).addTo(map);
 
-			console.log(addresses)
-
-			// addLegend(); // add empty legend to map
+			console.log(addresses);
+			updateTable(addresses, "2020"); // build table
 			addUi(addresses); // add the UI controls
 			updateMap(addresses); // draw the map
 
@@ -426,12 +401,10 @@
 			console.log(buttonclick);
 			if (!buttonclick) {
 				modalWindow.className = "show";
-				// modalButton.style.borderColor = "darkgray";
 				modalButton.style.backgroundColor = "darkgray";
 				modalButton.innerHTML = "Less about foreclosure sales";
 			} else if (buttonclick == true) {
 				modalWindow.className = "hide";
-				// modalButton.style.borderColor = "lightgray";
 				modalButton.style.backgroundColor = "lightgray";
 				modalButton.innerHTML = "More about foreclosure sales";
 			}
@@ -501,150 +474,59 @@
 				layer.bindPopup(tooltipInfo, {
 					sticky: true,
 				});
-      });
-    };
+			});
+		};
 
-		// function updateTable(data) {
-		// 	// Fetch the data for the selected year
-		// 	var data = fetchData(data);
-
-		// 	// // Only show the top 5 entries
-		// 	// data = data.slice(0, 5);
-
-		// 	// Get a reference to the table
-		// 	var table = document.getElementById('top-purchasers-table');
-
-		// 	// Loop through the data and add a new row for each entry
-		// 	for (var i = 0; i < data.length; i++) {
-		// 		var entry = data[i];
-
-		// 		// Create a new row
-		// 		var row = document.createElement('tr');
-
-		// 		// Create the cells for the row
-		// 		var rankCell = document.createElement('td');
-		// 		var nameCell = document.createElement('td');
-		// 		var numPropertiesCell = document.createElement('td');
-
-		// 		// Set the cell contents to the data from the entry
-		// 		rankCell.innerHTML = entry.count.PURCHASER;
-		// 		nameCell.innerHTML = entry.PURCHASER;
-		// 		numPropertiesCell.innerHTML = entry.numProperties;
-
-		// 		// Append the cells to the row
-		// 		row.appendChild(rankCell);
-		// 		row.appendChild(nameCell);
-		// 		row.appendChild(numPropertiesCell);
-
-		// 		// Append the row to the table
-		// 		table.appendChild(row);
-		// 	}
-		// }
-
-		function getPurchaserCount(data) {
-			
-			const purchaserCounts = {};
-
-				// Iterate through each feature in the geojson object
-				data.features.forEach(feature => {
-				// Get the name of the purchaser
-				const name = feature.properties.PURCHASER;
-
-				// If the name is not yet in the dictionary, add it with a count of 0
-				if (!purchaserCounts[name]) {
-					purchaserCounts[name] = 0;
-				}
-
-				// Increment the count for the purchaser by 1
-				purchaserCounts[name] += 1;
-				});
-
-				// Return the dictionary of purchaser names and counts
-				return purchaserCounts;
-
-				console.log(purchaserCounts); // log the dictionary of purchaser names and counts
-		}
-
-
-		function updateTable(data) {
-
+		function updateTable(addresses, year) {
 			// Get the table body element
 			const tableBody = document.querySelector('#top-purchasers-table tbody');
-
-			// // Clear the table body
-			// tableBody.innerHTML = '';
-
+			// Clear the table body
+			tableBody.innerHTML = '';
 			// Get the current count of purchasers for the given year
-			const purchaserCount = getPurchaserCount(data);
-
+			const purchaserCount = getPurchaserCount(addresses, year);
 			// Sort the purchaser counts in descending order
 			const sortedPurchasers = Object.entries(purchaserCount).sort((a, b) => b[1] - a[1]);
 
-			// // Take the top 5 purchasers
-			// const topPurchasers = sortedPurchasers.slice(1, 2, 7, 8);
-
-			const topPurchasers = sortedPurchasers.filter((purchaser, index) => {
-				return index !== 0 && index !== 3 && index !== 4 && index !== 5;
-				}).slice(0, 5);
-
+			// Take the top 5 purchasers
+			const topPurchasers = sortedPurchasers.slice(0, 5);
 			// Create a row for each purchaser
 			const rows = topPurchasers.map(([name, count]) => {
 				// Create a new table row element
 				const row = document.createElement('tr');
-
 				// Create a new table cell element for the name
 				const nameCell = document.createElement('td');
 				nameCell.textContent = name;
-
 				// Create a new table cell element for the count
 				const countCell = document.createElement('td');
 				countCell.textContent = count;
-
 				// Append the cells to the row
 				row.appendChild(nameCell);
 				row.appendChild(countCell);
-
 				return row;
 			});
 
 			// Append the rows to the table body
 			rows.forEach(row => tableBody.appendChild(row));
-
 		}
 
-				// const yearInput = document.querySelector('#year-input');
-				// yearInput.addEventListener('change', function() {
-				// const year = this.value;
-				// addUi(year);
-			// });
-					
-
-		// Get class breaks in data
-		// function getYears(addresses) {
-		// 	// create empty Array for storing values
-		// 	const values = [];
-
-		// 	// loop through all the counties
-		// 	addresses.eachLayer(function (layer) {
-		// 		let value = layer.feature.properties["SALE_DATE"]
-		// 			// layer.feature.properties[attributeValue] /
-		// 			// layer.feature.properties[normValue];
-		// 		values.push(value); // push the normalized value for each layer into the Array
-		// 	});
-		// 	return values;
-
-
-		// // determine similar clusters
-		// const clusters = ss.ckmeans(values, 5);
-
-		// // create an array of the lowest value within each cluster
-		// const breaks = clusters.map(function (cluster) {
-		// 	return [cluster[0], cluster.pop()];
-		// });
-
-		// //return array of arrays, e.g., [[0.24,0.25], [0.26, 0.37], etc]
-		// return breaks;
-		// }
+		function getPurchaserCount(addresses, year) {
+			const purchaserCounts = {};
+			addresses.eachLayer(function (layer) {
+				if (layer.feature.properties.SALE_DATE.includes(year) && !layer.feature.properties.PURCHASER.includes("WITHDRAWN") && !layer.feature.properties.PURCHASER.includes("COUNTY OF JEFFERSON")) {
+					// Get the name of the purchaser
+					const name = layer.feature.properties.PURCHASER;
+					// If the name is not yet in the dictionary, add it with a count of 0
+					if (!purchaserCounts[name]) {
+						purchaserCounts[name] = 0;
+					}
+					// Increment the count for the purchaser by 1
+					purchaserCounts[name] += 1;
+				}
+			});
+			// Return the dictionary of purchaser names and counts
+			return purchaserCounts;
+			console.log(purchaserCounts); // log the dictionary of purchaser names and counts
+		}
 
 		// Get color of county
 		function getColor(year) {
@@ -663,54 +545,15 @@
 			}
 		}
 
-		// Add legend to map
-		// function addLegend() {
-
-		// 	// create a new Leaflet control object, and position it top left
-		// 	const legendControl = L.control({
-		// 		position: "topright"
-		// 	});
-
-		// 	// when the legend is added to the map
-		// 	legendControl.onAdd = function () {
-		// 		// select a div element with an id attribute of legend
-		// 		const legend = L.DomUtil.get("legend");
-
-		// 		// disable scroll and click/touch on map when on legend
-		// 		L.DomEvent.disableScrollPropagation(legend);
-		// 		L.DomEvent.disableClickPropagation(legend);
-
-		// 		// return the selection to the method
-		// 		return legend;
-		// 	};
-
-		// 	// add the empty legend div to the map
-		// 	legendControl.addTo(map);
-		// }
-
-		function addUi(addresses, data) {
-		// 	// create the slider control
-		// 	var selectControl = L.control({
-		// 		position: "topright"
-		// 	});
-
-		// 	// when control is added
-		// 	selectControl.onAdd = function () {
-		// 		// get the element with id attribute of ui-controls
-		// 		return L.DomUtil.get("dropdown-ui");
-		// 	};
-		// 	// add the control to the map
-		// 	selectControl.addTo(map);
-
+		function addUi(addresses) {
 			const dropdown = document.querySelector('#dropdown-ui select')
-			// const toggle = document.getElementById('#ui-toggle')
 			dropdown.addEventListener('change', function (e) {
 				// get the value of the selected option
 				attributeValue = e.target.value;
 				this.style.backgroundColor = getColor(attributeValue);
 				// update the map
 				updateMap(addresses);
-				// updateTable(data);
+				updateTable(addresses, attributeValue); // attributeValue = year
 			});
 		}
 	</script>
