@@ -1,0 +1,168 @@
+body {
+  background: #20282e;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+}
+
+h1 {
+  font-family: 'Bitter', serif;
+  font-weight: 600;
+}
+
+h3 {
+  font-weight: 200;
+  font-size: 1.1rem;
+}
+
+h4 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-size: 0.9rem;
+  text-align: center;
+  font-style: italic;
+  color: lightgray;
+}
+
+p {
+  line-height: 1rem;
+}
+
+a {
+  color: lightgray;
+}
+
+a:hover {
+  color: gold
+}
+
+ul li {
+  padding-left: 0.5rem
+}
+
+sup {
+  font-size: 0.5rem;
+  font-style: italic;
+}
+
+#map {
+  height: 60vh;
+  background: #262626;
+}
+
+#search-bar {
+  font-family: 'Nunito', sans-serif;
+  background-color: white;
+  font-style: italic;
+  color: black;
+  font-size: 0.9rem;
+  text-align: center;
+  margin: auto;
+  height: 2.5rem;
+  width: 95%;
+  border-radius: 7.5px;
+  border: none
+}
+
+#search-bar:hover {
+  border: 1.5px solid gold;
+}
+
+#search-candidate {
+  font-family: 'Nunito', sans-serif;
+  background-color: black;
+  color: gold;
+  font-size: 0.9rem;
+  height: 2.5rem;
+  width: 95%;
+  border: 1.5px solid gold;
+  border-radius: 7.5px
+}
+
+.modal-content {
+  font-size: 0.9rem;
+  width: 95%;
+  background-color: black;
+  border: 1.5px solid gold;
+  color: lightgray;
+  padding: 0.5rem;
+}
+
+#top-purchasers-table {
+  font-size: 0.9rem;
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 95%;
+}
+
+#top-purchasers-table th {
+  color: gold;
+  text-align: center;
+  font-size: 0.9rem;
+  border: 0.5px solid lightgray;
+  padding: 8px;
+  width: 75%;
+}
+
+#top-purchasers-table td {
+  font-size: 0.9rem;
+  border: 0.5px solid lightgray;
+  padding: 8px;
+  width: 75%;
+}
+
+#ui-toggle {
+  background-color: #fb9a99;
+  color: black;
+  font-size: 0.9rem;
+  border-radius: 7.5px;
+  text-align: center;
+  height: 2.5rem;
+  width: 75%;
+  border: none
+}
+
+#ui-toggle:hover {
+  border: 1.5px solid gold;
+}
+
+#dropdown-ui {
+  width: 100%;
+}
+
+#modalButton {
+  font-size: 0.9rem;
+  background-color: lightgray;
+  color: black;
+  height: 2.5rem;
+  width: 95%;
+  border: none;
+  border-radius: 7.5px
+}
+
+#modalButton:hover {
+  background-color: darkgray;
+  border: 1.5px solid gold;
+}
+
+.leaflet-popup {
+  font-family: 'Bitter', serif;
+}
+
+/* 480px and up */
+@media (min-width: 480px) {
+  aside {
+    height: 80vh;
+  }
+
+  #map {
+    height: 80vh;
+  }
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
