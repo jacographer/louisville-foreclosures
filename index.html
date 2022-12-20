@@ -512,9 +512,14 @@
 		function getPurchaserCount(addresses, year) {
 			const purchaserCounts = {};
 			addresses.eachLayer(function (layer) {
-				if (layer.feature.properties.SALE_DATE.includes(year) && !layer.feature.properties.PURCHASER.includes("WITHDRAWN") && !layer.feature.properties.PURCHASER.includes("COUNTY OF JEFFERSON")) {
+				const p = layer.feature.properties;
+				// Handle cases where the purchaser is null
+				if (p.PURCHASER == null) {
+					p.PURCHASER = "UNKNOWN"
+				}
+				if (p.SALE_DATE.includes(year) && !p.PURCHASER.includes("WITHDRAWN") && !p.PURCHASER.includes("COUNTY OF JEFFERSON")) {
 					// Get the name of the purchaser
-					const name = layer.feature.properties.PURCHASER;
+					const name = p.PURCHASER;
 					// If the name is not yet in the dictionary, add it with a count of 0
 					if (!purchaserCounts[name]) {
 						purchaserCounts[name] = 0;
