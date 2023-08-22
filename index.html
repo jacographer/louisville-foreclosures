@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Louisville Foreclosures</title>
+	<title>Louisville Foreclosure Sales</title>
 	<!-- Add icon library -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- Bootstrap CSS -->
@@ -23,60 +23,63 @@
 <body>
 	<div class="container-fluid">
 		<header class="row bg-black text-white py-3">
-			<div class="col">
-				<h1>Foreclosures in Louisville KY, 2016-2020</h1>
+			<div class="col-md-8 col-lg-9 col-xl-8 text-center">
+				<h1>Foreclosure Sales in Louisville, KY (2016-2022)</h1>
+			</div>
+			<div class="col-md-4 col-lg-3 col-xl-4">
+				<!-- Button trigger modal -->
+				<button id="modalButton" type="button" class="btn">
+					More about foreclosure sales
+				</button>
+			</div>
+			<!-- Modal -->
+			<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" data-mdb-backdrop="true">
+				<div class="modal-dialog modal-fullscreen" role="document">
+					<div class="modal-content">
+						<!-- <div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+						</div> -->
+						<div class="modal-body">
+							<p>This map displays foreclosure sales in Louisville, KY from 2016-2022. Our purpose in mapping this data is to better understand the transfer of property from individual owners to investors during this period. Following the 2008 financial crisis, housing investors in the U.S. became active in foreclosure sales as a way to construct rental portfolios from foreclosed homes (<a href="https://doi.org/10.1080/00130095.2017.1397492" target="_blank">Fields, 2017</a>). This new housing landscape, defined by the growth of corporate housing investors, has led academics, journalists, and activists to produce a variety of public mapping and data visualization tools designed to make <a href="https://www.sfchronicle.com/projects/2022/sf-bay-area-property-map/" target="_blank">property ownership</a> more transparent, allow <a href="https://www.tenantpower.org/" target="_blank">tenants</a> to identify the investor that owns their home, or illustrate the consequences of <a href="https://www.tenantpower.org/" target="_blank">evictions</a>. In this case, we aim to show the geography of foreclosure sales in Louisville and the major real estate purchasers who invest through foreclosure auctions. 
+							<br><br>
+							Kentucky is a “<a href="https://www.tenantpower.org/" target="_blank">judicial foreclosure</a>” state, meaning that lenders must file a lawsuit with the local Circuit Court to take possession of a property and initiate a sale at public auction. The judicial foreclosures for Louisville can be found in <a href="https://www.tenantpower.org/" target="_blank">court records</a> produced by the Jefferson County Circuit Court (Louisville and Jefferson County have a consolidated government and the city’s territory is co-extensive with the county borders). This map visualizes properties which either  (1) defaulted into the ownership of lenders or (2) were purchased by real estate investors at the court’s foreclosure auctions. The map excludes records which were ‘withdrawn’–meaning foreclosure cases where no default or purchase ultimately occurred. The table accompanying the map aggregates the buyers of foreclosed properties in Jefferson County for a given year, displaying those with the highest-volume of purchases. Clicking on the names of these purchasers highlights all the properties each investor purchased in that year.
+							<br><br>
+							It is important to clarify that this visualization does not provide a complete picture of investor purchases of foreclosed homes in Louisville. For example, institutional investors often buy aggregated portfolios directly from lenders who default into ownership of a property when there are no bidders on the property at a foreclosure auction. Nevertheless, the map reveals important patterns of real estate investment–identifying a range of investors at Louisville’s foreclosure auctions, from large local landlords to national single-family rental firms.</p>
+						</div>
+					</div>
+				</div>
 			</div>
 		</header>
-
 		<section class="row">
 			<div class="col-md-8 col-lg-9 col-xl-8 order-md-1 px-0">
 				<div id="map"></div>
 			</div>
+
 			<aside id="about"
 				class="col-md-4 col-lg-3 col-xl-4 order-md-2 text-white py-2 pl-3 bg-black overflow-auto align-right">
 				<section>
-
 					<h3 class="py-2">
-						<b>&#x2630 Select</b><i> the year to highlight:</i><br><br>
+						<b>&#x2630 Select</b> the year to highlight:<br><br>
 						<!-- ui-controls -->
 						<div class="btn " id="dropdown-ui">
 							<select id="ui-toggle" class="dropdown-toggle">
-								<option value="2020" selected>2020</option>
+								<option value="2022" selected>2022</option>
+								<option value="2021">2021</option>
+								<option value="2020">2020</option>
 								<option value="2019">2019</option>
 								<option value="2018">2018</option>
 								<option value="2017">2017</option>
 								<option value="2016">2016</option>
+								<option value="20">All Years</option>
 							</select>
 						</div>
 						<!-- end ui-controls -->
-
-						<br><br><b>&#x25C9 Click</b><i> on points for foreclosure sale details.</i><br><br>
-						<!-- Button trigger modal -->
-						<button id="modalButton" type="button" class="btn">
-							More about foreclosure sales
-						</button>
-
-						<!-- Modal -->
-						<div class="modal fade" id="infoModal" tabindex="-1" role="dialog">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<p>Foreclosure occurs when a property owner is no longer able to make their mortgage payments, permitting the lender to seize and sell the property.<sup><a href="https://www.usa.gov/foreclosure" target="_blank">link</a></sup> In Louisville, foreclosure proceedings and sales occur through the Jefferson County Circuit Court, from whose quarterly documentation these property's addressed were mapped.<sup><a href="https://www.jeffcomm.org/past-results.html" target="_blank">link</a></sup><br><br>Not all foreclosed properties are sold. Many properties on this map were 'Withdrawn,' meaning that foreclosure proceedings began but no sale occured. A withdrawal can mean a number of things, such as settlement of outstanding mortgage debt or a delay for various legal or financial reasons.
-								</div>
-							</div>
-						</div>
-
-						<br><br><b>&#128270
-							Search</b><i> foreclosure sales by address:</i><br><br>
-
-						<input type="text" id="search-bar" placeholder="Begin typing address..."></input>
-						<div id='search-results'>
-							<select id="search-candidate" name="search-output" class="hide">
-							</select>
-						</div>
-						<br>
-						<b>&#8862 View</b><i> top purchasers for the selected year*:</i>
-						<br>
+						<br><br>
+						<b>&#8862 View</b> top purchasers for the selected year:
 					</h3>
+					<i>Click a name to highlight their property purchases.</i>
 					<table id="top-purchasers-table">
 						<thead>
 							<tr>
@@ -90,7 +93,18 @@
 						</tbody>
 					</table>
 					<br>
-					<h4><i>*Excluding withdrawn foreclosure sales and properties purchased by Jefferson County</i></h4>
+					<!-- <h4><i>*Excluding sales to state and local government entities.</i></h4> -->
+					<!-- <b>&#x25C9 Click</b><i> on points for foreclosure sale details.</i><br> -->
+					<b>&#128270
+						Search</b> foreclosures by address:<br>
+
+					<input type="text" id="search-bar" placeholder="Begin typing address..."></input>
+					<div id='search-results'>
+						<select id="search-candidate" name="search-output" class="hide">
+						</select>
+					</div>
+					<br>
+
 				</section>
 			</aside>
 		</section>
@@ -98,10 +112,11 @@
 			<div class="col">
 				<h4>
 					Map created by <a href="https://jacographer.com/portfolio/" target="_blank">Jacob Saindon</a> &
-					<a href="https://mmccanless.github.io" target="_blank">Michael McCanless</a> | Nov. 2022 | <a
+					<a href="https://mmccanless.github.io" target="_blank">Michael McCanless</a> | Published Nov. 2022 (rev. June 2023) | <a
 						href="https://github.com/jacographer/louisville-foreclosures/blob/main/readme.md"
 						target="_blank">Metadata</a><br>
-					Many thanks to <a href="https://boydx.github.io" target="_blank">Boyd Shearer</a> for his instruction and
+					Many thanks to <a href="https://boydx.github.io" target="_blank">Boyd Shearer</a> for his
+					instruction and
 					assistance.
 				</h4>
 		</footer>

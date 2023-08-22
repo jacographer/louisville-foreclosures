@@ -21,7 +21,7 @@
   }).addTo(map);
 
   // fetch data from a remote source
-  fetch("data/point-foreclosures-all.geojson")
+  fetch("data/6_jeffco_points.geojson")
     .then(function (response) {
       if (response.ok) {
         return response.json();
@@ -35,7 +35,7 @@
       drawMap(data);
     });
 
-  let attributeValue = "2020"; // Employed
+  let attributeValue = "2022"; // set 2022 as starting value
 
   function drawMap(data) {
     // create Leaflet data layer and add to map
@@ -61,7 +61,7 @@
           // change the stroke color and bring that element to the front
           layer
             .setStyle({
-              color: "#ffffd4",
+              color: "white",
               weight: 2,
             })
             .bringToFront();
@@ -75,16 +75,16 @@
           });
         });
 
-        // on clicking layer
-        layer.on("click", function (e) {
-          map.setView(e.latlng, 15);
-          console.log(e);
-        });
+        // // on clicking layer
+        // layer.on("click", function (e) {
+        //   map.panTo(e.latlng);
+        //   console.log(e);
+        // });
       },
     }).addTo(map);
 
     console.log(addresses);
-    updateTable(addresses, "2020"); // build table
+    updateTable(addresses, "2022"); // build table
     addUi(addresses); // add the UI controls
     updateMap(addresses); // draw the map
 
@@ -107,14 +107,16 @@
   const modalWindow = document.getElementById("infoModal");
   let buttonclick = false;
   modalButton.addEventListener("click", function () {
-    console.log(buttonclick);
+    // console.log(buttonclick);
     if (!buttonclick) {
       modalWindow.className = "show";
-      modalButton.style.backgroundColor = "darkgray";
+      modalButton.style.color = "gold";
+      modalButton.style.borderColor = "gold";
       modalButton.innerHTML = "Less about foreclosure sales";
     } else if (buttonclick == true) {
       modalWindow.className = "hide";
-      modalButton.style.backgroundColor = "lightgray";
+      modalButton.style.color = "white";
+      modalButton.style.borderColor = "white";
       modalButton.innerHTML = "More about foreclosure sales";
     }
     buttonclick = !buttonclick;
@@ -122,13 +124,13 @@
 
   function makeRandom(coord) {
     const sign = Math.random() < 0.5 ? -1 : 1;
-    return Number(coord) + Math.random() * 0.0005 * sign;
+    return Number(coord) + Math.random() * 0.0001 * sign;
   }
 
   function searchAddresses(v, addresses, results) {
     let returns = [];
     addresses.eachLayer(function (l) {
-      const address = l.feature.properties.PROPERTY;
+      const address = l.feature.properties.CLEAN;
       if (address.toLowerCase().includes(v.toLowerCase())) {
         returns.push([address, l._leaflet_id]);
       }
@@ -145,14 +147,17 @@
   }
 
   function zoomTo(v, addresses) {
+    updateMap(addresses);
     addresses.eachLayer(function (l) {
       const address = l.feature.properties;
       if (l._leaflet_id == v) {
-        map.setView(l.getLatLng(), 15);
+        map.setView(l.getLatLng(), 14);
         l.setStyle({
-          color: "goldenrod",
           fillColor: "gold",
-          weight: 2.5,
+          fillOpacity: 1,
+          color: "none",
+          radius: 8,
+          // weight: 2
         });
         l.openPopup();
       }
@@ -165,23 +170,31 @@
     // loop through each address layer to update the color and tooltip info
     addresses.eachLayer(function (layer) {
       const props = layer.feature.properties;
-      const year = props["SALE_DATE"];
+      const year = props["DATE"];
 
       // set the fill color of layer based on its value
       layer.setStyle({
-        fillColor: getColor(year),
+        radius: 5,
+        fillOpacity: 0.9,
+        color: "none",
+        fillColor: getColor(year)
       });
 
       let tooltipInfo = "";
-      if (props["PURCHASER"] == "WITHDRAWN") {
-        tooltipInfo = `<b>${props["PROPERTY"]}</b><br><i>Sale Withdrawn</i>, ${props["SALE_DATE"]}.<br>A withdrawn foreclosure sale means that the lender canceled the judicial sale of the property.`;
-      } else if (layer.feature.properties.PROPERTY) {
-        tooltipInfo = `<b>${props["PROPERTY"]}</b><br>Date of Sale: ${
-          props["SALE_DATE"]
-        }<br> Sale Price: $${props["PURCHASE"].toLocaleString("en-US", {
+      if (props["PURCHASER"] == props["PLAINTIFF"]) {
+        tooltipInfo = `<b>${props["CLEAN"]}</b><br>Date of Sale: ${
+          props["DATE"]
+        }<br> Sale Price: $${props["BID"].toLocaleString("en-US", {
           style: "currency",
           currency: "USD",
-        })}<br>Purchaser: <i>${props["PURCHASER"]}</i>`;
+        })}<br>Forecloser (Default): <i>${props["PLAINTIFF"]}</i>`;
+      } else if (layer.feature.properties.CLEAN) {
+        tooltipInfo = `<b>${props["CLEAN"]}</b><br>Date of Sale: ${
+          props["DATE"]
+        }<br> Sale Price: $${props["BID"].toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+        })}<br>Forecloser: <i>${props["PLAINTIFF"]}</i><br>Purchaser: <i>${props["PURCHASER"]}</i>`;
       } else {
         tooltipInfo = `<b>Incomplete Sale Data</b><br><i>For some foreclosed properties, the data available through the courts is incomplete.</i>`;
       }
@@ -203,8 +216,8 @@
       (a, b) => b[1] - a[1]
     );
 
-    // Take the top 5 purchasers
-    const topPurchasers = sortedPurchasers.slice(0, 5);
+    // Take the top 10 purchasers
+    const topPurchasers = sortedPurchasers.slice(0, 10);
     // Create a row for each purchaser
     const rows = topPurchasers.map(([name, count]) => {
       // Create a new table row element
@@ -215,12 +228,35 @@
       // Create a new table cell element for the count
       const countCell = document.createElement("td");
       countCell.textContent = count;
+
+      nameCell.addEventListener("click", function () {
+        updateMap(addresses);
+        map.flyTo([38.2, -85.7], 10);
+        addresses.eachLayer(function (layer) {
+          if(layer.feature.properties.PURCHASER == name && layer.feature.properties.DATE.includes(year)){
+            layer.bringToFront(),
+            layer.setStyle({
+              fillColor: "gold",
+              fillOpacity: 1,
+              color: "none",
+              radius: 8,
+              // weight: 2
+            });
+        // nameCell.style.color = "blue";
+        } else {
+          layer.setStyle({
+            fillOpacity: 0.3
+          })
+        }
+        })
+      });
+
       // Append the cells to the row
       row.appendChild(nameCell);
       row.appendChild(countCell);
       return row;
-    });
 
+    });
     // Append the rows to the table body
     rows.forEach((row) => tableBody.appendChild(row));
   }
@@ -234,9 +270,10 @@
         p.PURCHASER = "UNKNOWN";
       }
       if (
-        p.SALE_DATE.includes(year) &&
-        !p.PURCHASER.includes("WITHDRAWN") &&
-        !p.PURCHASER.includes("COUNTY OF JEFFERSON")
+        p.PURCHASER != p.PLAINTIFF &&
+        p.DATE.includes(year) &&
+        !p.PURCHASER.includes("SOLD AS A WHOLE")
+        
       ) {
         // Get the name of the purchaser
         const name = p.PURCHASER;
@@ -256,17 +293,23 @@
   // Get color of county
   function getColor(year) {
     if (year.includes("2016") && attributeValue == 2016) {
-      return "#a6cee3";
+      return "#1b9e77";
     } else if (year.includes("2017") && attributeValue == 2017) {
-      return "#1f78b4";
+      return "#d95f02";
     } else if (year.includes("2018") && attributeValue == 2018) {
-      return "#b2df8a";
+      return "#7570b3";
     } else if (year.includes("2019") && attributeValue == 2019) {
-      return "#33a02c";
+      return "#e7298a";
     } else if (year.includes("2020") && attributeValue == 2020) {
-      return "#fb9a99";
-    } else {
-      return "rgba(255, 255, 255, 0.05)";
+      return "#66a61e";
+    } else if (year.includes("2021") && attributeValue == 2021) {
+      return "#e6ab02";
+    } else if (year.includes("2022") && attributeValue == 2022) {
+      return "#a6761d";
+    } else if (year.includes("20") && attributeValue == 20) {
+        return "rgba(255, 255, 255, 0.5)";
+    // } else {
+    //   return "rgba(255, 255, 255, 0.05)";
     }
   }
 

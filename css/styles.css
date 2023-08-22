@@ -51,16 +51,16 @@ sup {
 
 #search-bar {
   font-family: 'Nunito', sans-serif;
-  background-color: white;
+  background-color: black;
   font-style: italic;
-  color: black;
+  color: white;
   font-size: 0.9rem;
   text-align: center;
   margin: auto;
   height: 2.5rem;
   width: 95%;
   border-radius: 7.5px;
-  border: none
+  border: 1.5px solid white
 }
 
 #search-bar:hover {
@@ -79,39 +79,61 @@ sup {
 }
 
 .modal-content {
-  font-size: 0.9rem;
-  width: 95%;
-  background-color: black;
-  border: 1.5px solid gold;
-  color: lightgray;
-  padding: 0.5rem;
+  font-size: 1rem;
+  width: 100%;
+  background-color: rgba(0,0,0,0.9);
+  /* border: 1.5px solid gold; */
+  /* color: lightgray; */
+  padding: 2rem 10vw;
+  z-index: 11;
 }
 
 #top-purchasers-table {
   font-size: 0.9rem;
-  border: 1px solid black;
   border-collapse: collapse;
+  border-style: hidden;
   width: 95%;
 }
 
+/* #top-purchasers-table tbody {
+  color: white;
+  font-size: 0.9rem;
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 95%;
+} */
+
 #top-purchasers-table th {
-  color: gold;
+  color: white;
   text-align: center;
   font-size: 0.9rem;
   border: 0.5px solid lightgray;
+  border-collapse: collapse;
   padding: 8px;
   width: 75%;
 }
 
 #top-purchasers-table td {
+  color: white;
   font-size: 0.9rem;
   border: 0.5px solid lightgray;
+  border-collapse: collapse;
   padding: 8px;
   width: 75%;
 }
 
+#top-purchasers-table td:first-child {
+  text-decoration: underline;
+  text-align: center;
+}
+
+#top-purchasers-table td:first-child:hover {
+  color: gold !important;
+}
+
+
 #ui-toggle {
-  background-color: #fb9a99;
+  background-color: #a6761d;
   color: black;
   font-size: 0.9rem;
   border-radius: 7.5px;
@@ -131,17 +153,19 @@ sup {
 
 #modalButton {
   font-size: 0.9rem;
-  background-color: lightgray;
-  color: black;
+  background-color: black;
+  color: white;
+  margin: 0 auto;
+  display: block;
   height: 2.5rem;
-  width: 95%;
-  border: none;
+  width: 15rem;
+  border: 1.5px solid white;
   border-radius: 7.5px
 }
 
 #modalButton:hover {
-  background-color: darkgray;
-  border: 1.5px solid gold;
+  color: gold !important;
+  border: 1.5px solid gold !important;
 }
 
 .leaflet-popup {
@@ -156,6 +180,8 @@ sup {
 
   #map {
     height: 80vh;
+    position: relative;
+    z-index: 1;
   }
 }
 
