@@ -40,7 +40,7 @@
   function drawMap(data) {
     // create Leaflet data layer and add to map
     var pointStyles = {
-      radius: 5,
+      radius: 6,
       fillColor: "#ff7800",
       color: "rgba (0,0,0,0)",
       weight: 1,
@@ -174,7 +174,7 @@
 
       // set the fill color of layer based on its value
       layer.setStyle({
-        radius: 5,
+        radius: 6,
         fillOpacity: 0.9,
         color: "none",
         fillColor: getColor(year)
@@ -200,6 +200,7 @@
       }
       layer.bindPopup(tooltipInfo, {
         sticky: true,
+        maxWidth: 250,
       });
     });
   }
