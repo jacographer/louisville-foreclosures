@@ -182,21 +182,21 @@
 
       let tooltipInfo = "";
       if (props["PURCHASER"] == props["PLAINTIFF"]) {
-        tooltipInfo = `<b>${props["CLEAN"]}</b><br>Date of Sale: ${
+        tooltipInfo = `<b>${props["CLEAN"]}</b><br><u>Date of Sale</u>: ${
           props["DATE"]
-        }<br> Sale Price: $${props["BID"].toLocaleString("en-US", {
+        }<br> <u>Sale Price</u>: $${props["BID"].toLocaleString("en-US", {
           style: "currency",
           currency: "USD",
-        })}<br>Forecloser (Default): <i>${props["PLAINTIFF"]}</i>`;
+        })}<br><u>Forecloser (Default)</u>: ${props["PLAINTIFF"]}`;
       } else if (layer.feature.properties.CLEAN) {
-        tooltipInfo = `<b>${props["CLEAN"]}</b><br>Date of Sale: ${
+        tooltipInfo = `<b>${props["CLEAN"]}</b><br><u>Date of Sale</u>: ${
           props["DATE"]
-        }<br> Sale Price: $${props["BID"].toLocaleString("en-US", {
+        }<br> <u>Sale Price</u>: $${props["BID"].toLocaleString("en-US", {
           style: "currency",
           currency: "USD",
-        })}<br>Forecloser: <i>${props["PLAINTIFF"]}</i><br>Purchaser: <i>${props["PURCHASER"]}</i>`;
+        })}<br><u>Forecloser</u>: ${props["PLAINTIFF"]}<br><u>Purchaser</u>: ${props["PURCHASER"]}`;
       } else {
-        tooltipInfo = `<b>Incomplete Sale Data</b><br><i>For some foreclosed properties, the data available through the courts is incomplete.</i>`;
+        tooltipInfo = `<b>Incomplete Sale Data</b><br>For some foreclosed properties, the data available through the courts is incomplete.`;
       }
       layer.bindPopup(tooltipInfo, {
         sticky: true,

@@ -1,5 +1,5 @@
 body {
-  background: #20282e;
+  background: black;
   font-family: 'Nunito', sans-serif;
   font-weight: 400;
 }
@@ -46,7 +46,9 @@ sup {
 
 #map {
   height: 60vh;
-  background: #262626;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  background-color: black;
 }
 
 #search-bar {
@@ -180,6 +182,8 @@ sup {
 
   #map {
     height: 80vh;
+    margin-left: 0rem;
+    margin-right: 0rem;
     position: relative;
     z-index: 1;
   }
