@@ -200,7 +200,7 @@
       }
       layer.bindPopup(tooltipInfo, {
         sticky: true,
-        maxWidth: 250,
+        maxWidth: 225,
       });
     });
   }
