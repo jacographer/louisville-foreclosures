@@ -3,7 +3,10 @@
 ## Live URL
 http://jacographer.com/louisville-foreclosures/
 
-Published Nov. 2022, revised August 2023.
+Published November 2022, revised August 2023.
+
+## Code
+GitHub: https://github.com/jacographer/louisville-foreclosures
 
 ## Purpose
 Our goal is for users to be able to visualize patterns of foreclosure by area, and to search through the data by address. This map is designed for researchers with interests in contemporary urban housing markets and trends. The goal is to help researchers scope out patterns in the data and facilitate further research into the topic (a) within the city of Louisville and (b) across and between U.S. cities.
