@@ -14,7 +14,7 @@ Our goal is for users to be able to visualize patterns of foreclosure by area, a
 ## Process
 We downloaded, cleaned, and georeferenced foreclosure sales retrieved from the [Jefferson Circuit Court Commissioner's Office](https://jeffcomm.org/past-results.html). These data included the address, sale date, plaintiff, purchaser, and purchase amount. Sales which were "Withdrawn" were removed from the dataset.
 
-Data cleaning also involved reformatting addresses and correcting typos. As part of this process we removed any aparment number or unit information. Following geocoding, we also reformatted purchaser and plaintiff names. This involved standardizing certain phrases (e.g "Purchaser, Inc" becomes "Purchaser Inc."), as well as differently-recorded names which could be associated with one another (e.g. "Jonathan Quincy Public," "John (NMN) Public," and "Jonathan Public" all become "John Q. Public").
+Data cleaning also involved reformatting addresses and correcting typos. As part of this process we removed any apartment number or unit information. Following geocoding, we also reformatted purchaser and plaintiff names. This involved standardizing certain phrases (e.g "Purchaser, Inc" becomes "Purchaser Inc."), as well as differently-recorded names which could be associated with one another (e.g. "Jonathan Quincy Public," "John (NMN) Public," and "Jonathan Public" all become "John Q. Public").
 
 Importantly, not all sales were able to be successfully georeferenced. As a result, the data is not comprehensive, yet still representative of spatial trends and major purchasers.
 
